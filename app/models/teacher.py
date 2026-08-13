@@ -35,7 +35,7 @@ class MarksTopic(db.Model):
     marks_topic_id = db.Column(db.Integer,primary_key=True)
     marks_topic_name = db.Column(db.String(100),nullable=False)
     full_marks = db.Column(db.Integer,nullable=False,)
-    subject_id = db.Column(db.Integerdb.ForeignKey("subjects.subject_id"),nullable=False)
+    subject_id = db.Column(db.Integer, db.ForeignKey("subjects.subject_id"),nullable=False)
     teacher_id = db.Column(
         db.Integer,
         db.ForeignKey("teacher_info.teacher_id"),
