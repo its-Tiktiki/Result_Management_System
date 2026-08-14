@@ -50,7 +50,8 @@ def add_principal():
             return redirect(url_for("admin_dashboard.admin_dashboard"))
         
     except Exception as e:
-        flash("Principal alrady exist")
+        db.session.rollback()
+        flash(f"Error adding principal: {e}", "danger")
         return redirect(url_for("add_principal.add_principal"))
 
     return render_template(

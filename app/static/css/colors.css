@@ -85,7 +85,8 @@
   --z-tooltip: 1070;
 }
 
-/* Dark Mode Support (Optional) */
+/*
+
 @media (prefers-color-scheme: dark) {
   :root {
     --text-dark: #f0f0f0;
@@ -95,3 +96,5 @@
     --dark-gray: #e0e0e0;
   }
 }
+
+*/

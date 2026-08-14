@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assistant — Result Management System</title>
+<style>
+  :root {
+    --ink: #1c2b26;
+    --paper: #f6f4ee;
+    --panel: #ffffff;
+    --rule: #d8d2c2;
+    --accent: #2f5d50;
+    --accent-soft: #e4ede9;
+    --user-bubble: #2f5d50;
+    --bot-bubble: #ffffff;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    --serif: "Source Serif 4", Georgia, serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  header .mark {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  header h1 {
+    font-size: 18px;
+    margin: 2px 0 0;
+    font-weight: 600;
+  }
+
+  header .status {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #6b7d75;
+  }
+
+  main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 0 12px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .thread {
+    width: 100%;
+    max-width: 680px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .row { display: flex; }
+  .row.user { justify-content: flex-end; }
+  .row.bot { justify-content: flex-start; }
+
+  .bubble {
+    max-width: 78%;
+    padding: 12px 16px;
+    border-radius: 3px;
+    line-height: 1.5;
+    font-size: 15px;
+    white-space: pre-wrap;
+  }
+
+  .row.user .bubble {
+    background: var(--user-bubble);
+    color: #f6f4ee;
+    border-top-right-radius: 0;
+  }
+
+  .row.bot .bubble {
+    background: var(--bot-bubble);
+    border: 1px solid var(--rule);
+    border-top-left-radius: 0;
+  }
+
+  .row.bot .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b7d75;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .empty-state {
+    margin: auto;
+    text-align: center;
+    color: #6b7d75;
+    max-width: 420px;
+  }
+
+  .empty-state .glyph {
+    font-family: var(--mono);
+    font-size: 28px;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .empty-state p { font-size: 14px; margin: 6px 0 0; }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 16px 20px 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  form {
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    gap: 10px;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 6px 6px 6px 16px;
+  }
+
+  textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: var(--serif);
+    font-size: 15px;
+    padding: 8px 0;
+    background: transparent;
+    max-height: 120px;
+  }
+
+  button {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: #f6f4ee;
+    border: none;
+    border-radius: 2px;
+    padding: 0 20px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  button:hover { background: #24463c; }
+  button:disabled { background: #a9b8b3; cursor: default; }
+
+  .typing {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: #6b7d75;
+  }
+
+  .thread::-webkit-scrollbar { width: 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="mark">Result Management System</div>
+    <h1>Assistant</h1>
+  </div>
+  <div class="status" id="status">Ready</div>
+</header>
+
+<main>
+  <div class="thread" id="thread">
+    <div class="empty-state" id="empty-state">
+      <div class="glyph">&gt;_</div>
+      <p>Ask about attendance, marks, students, or how a workflow works. Nothing is sent until you press send.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <form id="chat-form">
+    <textarea id="chat-input" rows="1" placeholder="Type a message…" autofocus></textarea>
+    <button type="submit" id="send-btn">Send</button>
+  </form>
+</footer>
+
+<script>
+  const thread = document.getElementById('thread');
+  const emptyState = document.getElementById('empty-state');
+  const form = document.getElementById('chat-form');
+  const input = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('send-btn');
+  const statusEl = document.getElementById('status');
+
+  function addRow(role, text) {
+    if (emptyState) emptyState.remove();
+    const row = document.createElement('div');
+    row.className = 'row ' + role;
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    if (role === 'bot') {
+      const label = document.createElement('span');
+      label.className = 'label';
+      label.textContent = 'Assistant';
+      bubble.appendChild(label);
+      const textNode = document.createElement('span');
+      textNode.textContent = text;
+      bubble.appendChild(textNode);
+    } else {
+      bubble.textContent = text;
+    }
+    row.appendChild(bubble);
+    thread.appendChild(row);
+    thread.scrollTop = thread.scrollHeight;
+    return bubble;
+  }
+
+  input.addEventListener('input', () => {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const message = input.value.trim();
+    if (!message) return;
+
+    addRow('user', message);
+    input.value = '';
+    input.style.height = 'auto';
+    sendBtn.disabled = true;
+    statusEl.textContent = 'Thinking…';
+
+    try {
+      const res = await fetch('/ask/message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        addRow('bot', 'Something went wrong: ' + (data.error || 'unknown error'));
+      } else {
+        addRow('bot', data.reply);
+      }
+    } catch (err) {
+      addRow('bot', 'Could not reach the assistant. Check your connection and try again.');
+    } finally {
+      sendBtn.disabled = false;
+      statusEl.textContent = 'Ready';
+      input.focus();
+    }
+  });
+</script>
+
+</body>
+</html>
