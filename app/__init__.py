@@ -1,10 +1,17 @@
 from flask import Flask
 from .config import Config
 from .extensions import db
-
+from flask_cors import CORS
 
 def create_app():
     app = Flask(__name__)
+    CORS(
+        app,
+        origins=[
+            "http://localhost:5173",
+            "http://127.0.0.1:5173"
+        ]
+    )
     app.config.from_object(Config)
     db.init_app(app)
 
@@ -38,10 +45,10 @@ def create_app():
     from .routes.student.attendance import student_attendance_bp
     from .routes.admin.upload_cgpa import upload_cgpa_bp
     from .routes.student.view_cgpa import view_student_cgpa_bp
-    from .routes.api.student_data_api import student_api
 
     # API
-    from .routes.api.student_data import student_data_api
+    from .routes.api.student_data import student_data_api_bp
+    from .routes.api.student_auth import search_student_bp
 
     # AI
     from .routes.ai.routes import ai_bp
@@ -76,10 +83,13 @@ def create_app():
     app.register_blueprint(student_attendance_bp)
     app.register_blueprint(upload_cgpa_bp)
     app.register_blueprint(view_student_cgpa_bp)
-    app.register_blueprint(student_api)
+    
 
     # Register API and AI blueprints
-    app.register_blueprint(student_data_api)
+    app.register_blueprint(student_data_api_bp)
+    app.register_blueprint(search_student_bp)
+
+    # AI Blueprint
     app.register_blueprint(ai_bp)
 
     return app
