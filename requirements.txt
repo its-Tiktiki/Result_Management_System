@@ -24,3 +24,5 @@ WTForms==3.2.2
 requests>=2.31.0
 mistralai>=0.1.0
 python-dotenv
+flask-cors
+PyMuPDF
