@@ -26,8 +26,7 @@ def create_app():
     from .routes.admin.Upload.upload_dashboard import upload_dashboard_bp
     from .routes.admin.Upload.view_pdf_file import view_pdf_bp
     from .routes.ai.routes import ai_bp
-    from .routes.api.student_auth import search_student_bp
-    from .routes.api.student_data import student_data_api_bp
+    from .routes.api.student.student_auth import search_student_bp
     from .routes.auth.login import login_bp
     from .routes.principal.add_teacher import add_teacher_bp
     from .routes.principal.edit_teacher import edit_teacher_bp
@@ -75,6 +74,11 @@ def create_app():
     from .routes.teacher.show_student import show_student_bp
     from .routes.teacher.teacher_dashboard import teacher_dashboard_bp
 
+
+    # APIS blueprint
+    from .routes.api.student.student_data import student_data_api_bp
+    from .routes.api.student.attendance import attendance_api_bp
+
     # Register Blueprints
     app.register_blueprint(home_bp)
     app.register_blueprint(login_bp)
@@ -112,6 +116,7 @@ def create_app():
     app.register_blueprint(upload_dashboard_bp)
 
     # Register API, AI, and Admin Blueprints
+    app.register_blueprint(attendance_api_bp)
     app.register_blueprint(student_data_api_bp)
     app.register_blueprint(search_student_bp)
     app.register_blueprint(ai_bp)
