@@ -1,19 +1,93 @@
 {% extends "base/base.html" %}
 {% block title %} Teacher Dashboard {% endblock %}
+ 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
 {% block content %}
 
-<div class="card ">
-    <h1>Welcome to Teacher  Dashboard </h1>
+<!-- Background blobs -->
+<div class="dash-blob dash-blob-1"></div>
+<div class="dash-blob dash-blob-2"></div>
 
-    <ul class="make_list card box-shadow">
-        <li><a href="{{ url_for('add_student.add_student')}}">Add Student</a></li>
-        <li><a href="{{ url_for('show_student.show_student')}}">View Students</a></li>
-        <li><a href="{{ url_for('attendence.attendance')}}">Get Attendence</a></li>
-        <li><a href="{{ url_for('get_marks_dashboard.get_marks_dashboard')}}">Assign Marks Dashboard</a></li>
-    </ul>
-    <div class="box">
-    <h2>Total Studenta: {{total_student}}</h2>
+<!-- ── TOP HEADER ── -->
+<header class="dash-header">
+  <div class="dash-header-left">
+    <div class="dash-avatar">P</div>
+    <div>
+      <p class="dash-greeting">Good day,</p>
+      <h1 class="dash-title">Teacher Dashboard</h1>
+    </div>
+  </div>
+  <div class="dash-header-right">
+    <span class="dash-badge">Teacher</span>
+    <a href="{{ url_for('login.logout_principal') }}" class="btn btn-outline btn-sm">Sign out</a>
+  </div>
+</header>
 
+<!-- Stats row -->
+<div class="dash-stats">
+    <div class="stat-card stat-primary anim-slide visible">
+        <div class="stat-icon">🎓</div>
+        <div class="stat-body">
+            <span class="stat-label">Total Students</span>
+            <span class="stat-value">{{ total_student }}</span>
+        </div>
+        <div class="stat-glow"></div>
+    </div>
+</div>
+
+<!-- Main grid -->
+<div class="dash-grid">
+    <div class="dash-panel">
+        <div class="panel-header">
+            <h2 class="panel-title">Quick Actions</h2>
+            <span class="panel-chip">Menu</span>
+        </div>
+        <div class="action-list">
+            <a href="{{ url_for('add_student.add_student') }}" class="action-item action-blue">
+                <div class="action-icon-wrap">➕</div>
+                <div class="action-text">
+                    <span class="action-name">Add Student</span>
+                    <span class="action-desc">Register a new student</span>
+                </div>
+                <span class="action-arrow">→</span>
+            </a>
+            <a href="{{ url_for('show_student.show_student') }}" class="action-item action-teal">
+                <div class="action-icon-wrap">👥</div>
+                <div class="action-text">
+                    <span class="action-name">View Students</span>
+                    <span class="action-desc">Browse student records</span>
+                </div>
+                <span class="action-arrow">→</span>
+            </a>
+            <a href="{{ url_for('attendence.attendance') }}" class="action-item action-indigo">
+                <div class="action-icon-wrap">🗓️</div>
+                <div class="action-text">
+                    <span class="action-name">Get Attendance</span>
+                    <span class="action-desc">Mark or review attendance</span>
+                </div>
+                <span class="action-arrow">→</span>
+            </a>
+            <a href="{{ url_for('get_marks_dashboard.get_marks_dashboard') }}" class="action-item action-amber">
+                <div class="action-icon-wrap">📝</div>
+                <div class="action-text">
+                    <span class="action-name">Assign Marks Dashboard</span>
+                    <span class="action-desc">Enter and manage marks</span>
+                </div>
+                <span class="action-arrow">→</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="dash-side">
+        <div class="help-card">
+            <p class="help-label">Need help?</p>
+            <p class="help-sub">Reach out to admin support if something isn't working as expected.</p>
+        </div>
     </div>
 </div>
 
