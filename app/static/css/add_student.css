@@ -1,0 +1,313 @@
+/* ==========================================================================
+   Add Student — CSS-only restyle
+   Targets the EXACT existing markup: .card.form-box, .mb-3, .ap-label,
+   .form-control, and the submit input. No HTML/Jinja changes required.
+   Uses CSS variables so it inherits from colors.css when available —
+   swap the fallback values if your token names differ.
+   ========================================================================== */
+
+.form-box {
+    max-width: 640px;
+    margin: 2.5rem auto;
+    padding: 2rem 2.25rem;
+    border: none;
+    border-radius: 16px;
+    background: var(--surface, #ffffff);
+    box-shadow: 0 10px 30px rgba(20, 40, 90, 0.08);
+}
+
+.form-box {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.form-box form {
+    padding: 0 2.25rem;
+}
+
+/* Field groups */
+.form-box .mb-3 {
+    margin-bottom: 1.35rem !important;
+}
+
+/* Labels */
+.form-box .ap-label {
+    display: inline-block;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary, #1f2937);
+}
+
+/* Inputs */
+.form-box .form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    color: var(--text-primary, #1f2937);
+    background-color: var(--surface-alt, #f7f8fa);
+    border: 1.5px solid var(--border, #e3e6ea);
+    border-radius: 10px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.form-box .form-control::placeholder {
+    color: var(--text-muted, #9aa1ab);
+}
+
+.form-box .form-control:hover {
+    border-color: var(--border-hover, #c7cbd3);
+}
+
+.form-box .form-control:focus {
+    outline: none;
+    background-color: var(--surface, #ffffff);
+    border-color: var(--primary, #1e88e5);
+    box-shadow: 0 0 0 3px var(--primary-soft, rgba(30, 136, 229, 0.15));
+}
+
+/* Invalid state, in case WTForms adds is-invalid on validation errors */
+.form-box .form-control.is-invalid {
+    border-color: var(--danger, #e53935);
+}
+
+.form-box .invalid-feedback {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--danger, #e53935);
+}
+
+/* Two-column layout on wider screens. Section titles and the
+   .full-width / .form-actions rows always span both columns;
+   everything else pairs up left/right in source order. */
+@media (min-width: 640px) {
+    .form-box form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 1.5rem;
+        align-items: start;
+    }
+
+    .form-box form > .as-section-title,
+    .form-box .mb-3.full-width,
+    .form-box .form-actions {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Footer actions: Cancel + Submit */
+.form-box .form-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.form-box .btn-cancel {
+    padding: 0.75rem 1.75rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-secondary, #4b5563);
+    background: var(--surface-alt, #eceef1);
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.form-box .btn-cancel:hover {
+    background: var(--border, #dfe2e6);
+}
+
+.form-box input[type="submit"].btn-submit,
+.form-box button.btn-submit {
+    padding: 0.75rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    /* deep blue to bright cyan, solid stops, no washed-out fade */
+    background: linear-gradient(90deg, #0d47f4 0%, #0561e0 35%, #12b7e8 100%);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(13, 71, 244, 0.25);
+    transition: box-shadow 0.15s ease, transform 0.05s ease, filter 0.15s ease;
+}
+
+.form-box input[type="submit"].btn-submit:hover,
+.form-box button.btn-submit:hover {
+    filter: brightness(1.05);
+    box-shadow: 0 6px 14px rgba(13, 71, 244, 0.3);
+}
+
+.form-box .btn-cancel:active,
+.form-box input[type="submit"].btn-submit:active,
+.form-box button.btn-submit:active {
+    transform: translateY(1px);
+}
+
+/* Small screens: single column, tighter padding, full-width button */
+@media (max-width: 639px) {
+    .form-box {
+        margin: 1.25rem;
+        padding: 1.5rem 1.25rem;
+    }
+
+    .form-box .form-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .form-box .btn-cancel,
+    .form-box input[type="submit"].btn-submit,
+    .form-box button.btn-submit {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ==========================================================================
+   Page header bar (icon + title + subtitle + Back to Dashboard)
+   ========================================================================== */
+
+.as-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 2rem auto 1rem;
+    flex-wrap: nowrap;
+}
+
+.as-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.as-header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+    border-radius: 12px;
+    background: var(--icon-bg, #eaf2ff);
+    flex-shrink: 0;
+}
+
+.as-header-left h1 {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--primary, #1e6fe0);
+}
+
+.as-header-left p {
+    margin: 0.15rem 0 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #6b7280);
+}
+
+.as-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary, #1e6fe0);
+    background: #fff;
+    border: 1.5px solid var(--primary, #1e6fe0);
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.as-back-btn:hover {
+    background: var(--primary, #1e6fe0);
+    color: #fff;
+}
+
+/* ==========================================================================
+   Blue registration banner inside the card
+   ========================================================================== */
+
+.as-banner {
+    padding: 1.75rem 2.25rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #e3f2fd, #e8f9fd);
+    border-bottom: 1px solid var(--border, #e3e6ea);
+}
+
+.as-banner h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary, #1e6fe0);
+}
+
+.as-banner p {
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #6b7280);
+}
+
+.as-required {
+    color: var(--danger, #e53935);
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   Numbered section labels (01 STUDENT INFORMATION, etc.)
+   ========================================================================== */
+
+.as-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 1.75rem 0 1.1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary, #6b7280);
+}
+
+.form-box form > .as-section-title:first-of-type {
+    margin-top: 0;
+}
+
+.as-step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary, #1e88e5), var(--primary-light, #29b6f6));
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 639px) {
+    .as-page-header {
+        margin: 1.25rem 1.25rem 1rem;
+        flex-wrap: wrap;
+    }
+
+    .as-banner {
+        padding: 1.5rem 1.25rem;
+    }
+}
