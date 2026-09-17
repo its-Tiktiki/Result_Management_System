@@ -1,32 +1,76 @@
-{% extends "base/base.html" %} {% block title %} Add Student{% endblock %} {%
-block content %}
+{% extends "base/base.html" %}
+{% block title %} Add Student {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add_student.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="as-page-header">
+    <div class="as-header-left">
+        <div class="as-header-icon">🎓</div>
+        <div>
+            <h1>Add New Student</h1>
+            <p>Fill in the details below to register a student to the system</p>
+        </div>
+    </div>
+    <a href="{{ url_for('teacher_dashboard.teacher_dashboard') }}" class="as-back-btn">
+        <span>&larr;</span> Back to Dashboard
+    </a>
+</div>
 
 <div class="card form-box">
-  <form method="POST">
-    {{ student_form.hidden_tag() }}
 
-    <div class="mb-3">
-      {{ student_form.student_roll.label(class="ap-label")}} {{
-      student_form.student_roll(class="form-control")}}
+    <div class="as-banner">
+        <h2>Student Registration Form</h2>
+        <p>All fields marked <span class="as-required">*</span> are required</p>
     </div>
-    <div class="mb-3">
-      {{ student_form.student_full_name.label(class="ap-label")}} {{
-      student_form.student_full_name(class="form-control")}}
-    </div>
-    <div class="mb-3">
-      {{ student_form.semester.label(class="ap-label")}} {{
-      student_form.semester(class="form-control")}}
-    </div>
-    <div class="mb-3">
-      {{ student_form.department_id.label }} {{
-      student_form.department_id(class="form-control") }}
-    </div>
-    <div class="mb-3">
-      {{ student_form.group.label(class="ap-label")}} {{
-      student_form.group(class="form-control")}}
-    </div>
-    <div class="mb-3">{{ student_form.submit(class="btn btn-primary") }}</div>
-  </form>
+
+    <form method="POST">
+        {{ student_form.hidden_tag() }}
+
+        <div class="as-section-title">
+            <span class="as-step">01</span>
+            <span>STUDENT INFORMATION</span>
+        </div>
+
+        <div class="mb-3">
+            {{ student_form.student_roll.label(class="ap-label")}}
+            {{ student_form.student_roll(class="form-control")}}
+        </div>
+        <div class="mb-3">
+            {{ student_form.student_full_name.label(class="ap-label")}}
+            {{ student_form.student_full_name(class="form-control")}}
+        </div>
+
+        <div class="as-section-title">
+            <span class="as-step">02</span>
+            <span>ACADEMIC DETAILS</span>
+        </div>
+
+        <div class="mb-3">
+            {{ student_form.semester.label(class="ap-label")}}
+            {{ student_form.semester(class="form-control")}}
+        </div>
+        <div class="mb-3">
+            {{ student_form.department_id.label(class="ap-label")}}
+            {{ student_form.department_id(class="form-control")}}
+        </div>
+        <div class="mb-3">
+            {{ student_form.group.label(class="ap-label")}}
+            {{ student_form.group(class="form-control")}}
+        </div>
+
+        <div class="mb-3 form-actions">
+            <a href="{{ url_for('principal_dashboard.principal_dashboard') }}" class="btn-cancel">Cancel</a>
+            {{ student_form.submit(value="Add Student", class="btn-submit") }}
+        </div>
+
+    </form>
+
 </div>
 
 {% endblock %}
