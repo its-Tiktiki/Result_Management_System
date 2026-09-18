@@ -1,0 +1,518 @@
+/* ==========================================================================
+   View Students — White / Light Theme
+   ========================================================================== */
+
+body {
+    background-color: #f1f6fc;
+}
+
+
+/* ==========================================================================
+   Page Header
+   ========================================================================== */
+
+.vs-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    width: calc(100% - 120px);
+    max-width: 1750px;
+
+    margin: 2rem auto 1.5rem;
+    padding: 0;
+}
+
+.vs-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.vs-header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 56px;
+    height: 56px;
+
+    font-size: 1.5rem;
+    border-radius: 14px;
+
+    background: #eaf2ff;
+}
+
+.vs-header-left h1 {
+    margin: 0;
+
+    font-size: 1.8rem;
+    font-weight: 800;
+
+    color: #1557d6;
+}
+
+.vs-header-left p {
+    margin: 0.2rem 0 0;
+
+    font-size: 1rem;
+    color: #6b7280;
+}
+
+
+/* ==========================================================================
+   Back to Dashboard button
+   ========================================================================== */
+
+.as-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    padding: 0.6rem 1.2rem;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    color: #1557d6;
+
+    background: #ffffff;
+    border: 1.5px solid #1557d6;
+    border-radius: 999px;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.as-back-btn:hover {
+    background: #1557d6;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(21, 87, 214, 0.25);
+}
+
+
+/* ==========================================================================
+   Main Container
+   ========================================================================== */
+
+.vs-page-header + .container {
+    width: calc(100% - 120px);
+    max-width: 1750px;
+
+    margin-top: 0 !important;
+}
+
+
+/* ==========================================================================
+   Cards
+   ========================================================================== */
+
+.vs-filter-card,
+.vs-table-card {
+    width: 100%;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+
+/* ==========================================================================
+   Filter Card Body
+   ========================================================================== */
+
+.vs-filter-card .card-body {
+    padding: 1.75rem;
+
+    background: #ffffff;
+}
+
+
+/* ==========================================================================
+   Filter Form
+   ========================================================================== */
+
+.vs-filter-card .form-label {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    color: #374151;
+}
+
+.vs-filter-card .form-select {
+    width: 100%;
+
+    padding: 0.75rem 1rem;
+
+    font-size: 0.95rem;
+
+    color: #374151;
+
+    background-color: #ffffff;
+
+    border: 1.5px solid #d1d5db;
+    border-radius: 10px;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vs-filter-card .form-select:hover {
+    border-color: #9ca3af;
+}
+
+.vs-filter-card .form-select:focus {
+    outline: none;
+
+    background-color: #ffffff;
+
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+
+    color: #374151;
+}
+
+.vs-filter-card .mb-3 {
+    margin-bottom: 1.35rem !important;
+}
+
+.vs-filter-card .row {
+    margin-left: -0.6rem;
+    margin-right: -0.6rem;
+}
+
+.vs-filter-card .row > [class*="col-"] {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+}
+
+
+/* ==========================================================================
+   Load Student Button
+   ========================================================================== */
+
+.vs-filter-card .btn-primary {
+    width: 100%;
+
+    padding: 0.85rem 1rem;
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    color: #ffffff;
+
+    background: linear-gradient(
+        90deg,
+        #0d47f4 0%,
+        #0561e0 35%,
+        #12b7e8 100%
+    );
+
+    border: none;
+    border-radius: 999px;
+
+    box-shadow: 0 4px 10px rgba(13, 71, 244, 0.2);
+
+    transition: filter 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
+}
+
+.vs-filter-card .btn-primary:hover {
+    filter: brightness(1.05);
+
+    box-shadow: 0 6px 14px rgba(13, 71, 244, 0.25);
+
+    transform: translateY(-1px);
+}
+
+.vs-filter-card .btn-primary:active {
+    transform: translateY(1px);
+}
+
+
+/* ==========================================================================
+   Student List Card
+   ========================================================================== */
+
+.vs-table-card {
+    margin-top: 1.5rem;
+}
+
+
+/* ==========================================================================
+   Student List Header
+   ========================================================================== */
+
+.vs-table-card .card-header {
+    border: none;
+
+    padding: 1.1rem 1.5rem;
+
+    background: linear-gradient(
+        90deg,
+        #059669 0%,
+        #10b981 100%
+    ) !important;
+}
+
+.vs-table-card .card-header h5 {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.vs-table-card .card-header h5::before {
+    content: "🎓";
+    font-size: 1.05rem;
+}
+
+.vs-table-card .card-body {
+    background: #ffffff;
+}
+
+
+/* ==========================================================================
+   Student List Table
+   ========================================================================== */
+
+.vs-table-card .table {
+    margin-bottom: 0;
+
+    color: #374151;
+
+    background: transparent;
+
+    border: 0.5px solid #111827 !important;
+}
+
+.vs-table-card .table thead.table-dark th {
+    background: #ffffff;
+
+    border-color: #e5e7eb;
+
+    font-size: 0.78rem;
+    font-weight: 700;
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    color: #6b7280;
+
+    padding: 1rem 1.25rem;
+}
+
+.vs-table-card .table thead.table-dark th:last-child {
+    text-align: center;
+}
+
+.vs-table-card .table td {
+    padding: 1rem 1.25rem;
+
+    font-size: 0.92rem;
+
+    color: #4b5563;
+
+    vertical-align: middle;
+
+    border-color: #eef0f3;
+
+    background: transparent;
+}
+
+.vs-table-card .table td:first-child {
+    font-weight: 700;
+    color: #1557d6;
+    font-variant-numeric: tabular-nums;
+}
+
+.vs-table-card .table td:nth-child(2) {
+    font-weight: 600;
+    color: #111827;
+}
+
+.vs-table-card .table td:nth-child(2)::before {
+    content: "👤";
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    margin-right: 0.65rem;
+    vertical-align: middle;
+
+    border-radius: 50%;
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+
+    font-size: 0.8rem;
+}
+
+.vs-table-card .table td:last-child {
+    text-align: center;
+}
+
+.vs-table-card .table-bordered,
+.vs-table-card .table-bordered th,
+.vs-table-card .table-bordered td {
+    border-color: #e5e7eb;
+}
+
+
+/* ==========================================================================
+   Striped Rows
+   ========================================================================== */
+
+.vs-table-card .table-striped > tbody > tr > * {
+    background-color: #ffffff !important;
+
+    color: #374151;
+}
+
+
+/* ==========================================================================
+   Hover Rows
+   ========================================================================== */
+
+.vs-table-card .table-hover > tbody > tr:hover > * {
+    background-color: #f5f9ff;
+}
+
+
+/* ==========================================================================
+   Edit / Delete Buttons
+   ========================================================================== */
+
+.vs-table-card .btn-sm {
+    display: inline-block;
+
+    padding: 0.4rem 0.95rem;
+
+    font-size: 0.82rem;
+    font-weight: 700;
+
+    border-radius: 999px;
+
+    border: none !important;
+
+    box-shadow: none !important;
+
+    text-decoration: none;
+
+    transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+
+/* ==========================================================================
+   Edit
+   ========================================================================== */
+
+.vs-table-card .btn-success.btn-sm {
+    color: #059669;
+    background: #ecfdf5 !important;
+}
+
+.vs-table-card .btn-success.btn-sm:hover {
+    color: #047857;
+    background: #d1fae5 !important;
+}
+
+
+/* ==========================================================================
+   Delete
+   ========================================================================== */
+
+.vs-table-card .btn-danger.btn-sm {
+    color: #dc2626;
+    background: #fef2f2 !important;
+    margin-left: 0.4rem;
+}
+
+.vs-table-card .btn-danger.btn-sm:hover {
+    color: #b91c1c;
+    background: #fee2e2 !important;
+}
+
+.vs-table-card .btn-sm:active {
+    transform: translateY(1px);
+}
+
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 991px) {
+
+    .vs-page-header {
+        width: calc(100% - 60px);
+    }
+
+    .vs-page-header + .container {
+        width: calc(100% - 60px);
+    }
+}
+
+
+@media (max-width: 767px) {
+
+    .vs-filter-card .card-body {
+        padding: 1.25rem;
+    }
+}
+
+
+@media (max-width: 639px) {
+
+    .vs-page-header {
+        width: calc(100% - 40px);
+
+        margin: 1.25rem auto 1rem;
+
+        flex-wrap: wrap;
+    }
+
+    .vs-page-header + .container {
+        width: calc(100% - 40px);
+    }
+
+    .vs-header-icon {
+        width: 48px;
+        height: 48px;
+
+        font-size: 1.3rem;
+    }
+
+    .vs-header-left h1 {
+        font-size: 1.4rem;
+    }
+
+    .vs-header-left p {
+        font-size: 0.85rem;
+    }
+
+    .vs-table-card .table td,
+    .vs-table-card .table thead.table-dark th {
+        padding: 0.65rem 0.6rem;
+
+        font-size: 0.82rem;
+    }
+}
