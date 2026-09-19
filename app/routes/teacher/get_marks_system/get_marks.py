@@ -45,6 +45,16 @@ def show_student():
         for g in sorted({x.group for x in students if x.group})
     ]
 
+
+    form.sessions.choices = [
+        (s, s)
+        for s in sorted({
+            x.sessions
+            for x in students
+                if x.sessions
+        })
+    ]
+
     student_data = []
 
     if form.validate_on_submit():
@@ -53,6 +63,7 @@ def show_student():
             teacher_id=teacher_id,
             department_id=form.department_id.data,
             semester=form.semester.data,
+            sessions=form.sessions.data,
             group=form.group.data
         ).all()
 

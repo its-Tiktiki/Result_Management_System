@@ -22,6 +22,11 @@ block content %}
         </div>
 
         <div class="mb-3">
+          {{ form.sessions.label(class="form-label") }} {{
+          form.sessions(class="form-select") }}
+        </div>
+
+        <div class="mb-3">
           {{ form.group.label(class="form-label") }} {{
           form.group(class="form-select") }}
         </div>
@@ -57,16 +62,11 @@ block content %}
             <td>{{ s.student_full_name }}</td>
 
             <td>
-              <a
-                href="{{ url_for('view_student_details.view_student_details', student_id=s.student_id) }}"
-                class="btn btn-success btn-sm"
-              >
+              <a href="{{ url_for('view_student_details.view_student_details', student_id=s.student_id) }}"
+                class="btn btn-success btn-sm">
                 Views
               </a>
-              <a
-                href="{{ url_for('add_marks.add_marks', student_id=s.student_id) }}"
-                class="btn btn-success btn-sm"
-              >
+              <a href="{{ url_for('add_marks.add_marks', student_id=s.student_id) }}" class="btn btn-success btn-sm">
                 Add marks
               </a>
             </td>
