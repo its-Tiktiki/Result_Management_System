@@ -34,6 +34,16 @@ def show_student():
         teacher_id=teacher_id
     ).all()
 
+
+    form.sessions.choices = [
+        (s, s)
+        for s in sorted({
+            x.sessions
+            for x in students
+                if x.sessions
+        })
+    ]
+
     form.semester.choices = [
         (s, f"Semester {s}")
         for s in sorted({x.semester for x in students})
@@ -51,6 +61,7 @@ def show_student():
         student_data = AddStudentInfo.query.filter_by(
             teacher_id=teacher_id,
             department_id=form.department_id.data,
+            sessions = form.sessions.data,
             semester=form.semester.data,
             group=form.group.data
         ).all()

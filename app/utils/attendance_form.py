@@ -5,32 +5,10 @@ from wtforms.validators import DataRequired
 
 class AttendanceForm(FlaskForm):
 
-    attendance_date = DateField(
-        "Select Date",
-        validators=[DataRequired()]
-    )
-
-    department_id = SelectField(
-        "Department",
-        coerce=int,
-        choices=[]
-    )
-
-    semester = SelectField(
-        "Semester",
-        coerce=int,
-        choices=[]
-    )
-
-    subject_id = SelectField(
-        "Subject",
-        coerce=int,
-        choices=[]
-    )
-
-    group = SelectField(
-        "Group",
-        choices=[]
-    )
-
+    attendance_date = DateField("Select Date",validators=[DataRequired()])
+    department_id = SelectField("Department",coerce=int,choices=[])
+    semester = SelectField("Semester",coerce=int,choices=[])
+    sessions = SelectField("Sessions",choices=[],validators=[DataRequired()])
+    subject_id = SelectField("Subject",coerce=int, choices=[])
+    group = SelectField("Group",choices=[])
     submit = SubmitField("Load Students")

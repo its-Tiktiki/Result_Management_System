@@ -6,6 +6,7 @@ class AddStudentInfo(db.Model):
     student_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     student_roll = db.Column(db.Integer, unique=True, nullable=False)
     student_full_name = db.Column(db.String(250), nullable=False)
+    sessions = db.Column(db.String(10),nullable=False,unique=True)
     semester = db.Column(db.Integer, nullable=False)
     group = db.Column(db.String(1))
     cgpa = db.Column(db.Float, default=0)

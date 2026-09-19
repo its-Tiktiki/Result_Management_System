@@ -46,6 +46,7 @@ def add_student():
                 student_roll=student_form.student_roll.data,
                 student_full_name=student_form.student_full_name.data,
                 semester=student_form.semester.data,
+                sessions=student_form.sessions.data,
                 group=student_form.group.data,
                 department_id=student_form.department_id.data,
                 teacher_id=teacher_id,

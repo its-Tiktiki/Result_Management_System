@@ -10,6 +10,7 @@ class AddStudentForm(FlaskForm):
     student_roll = IntegerField("Student Roll",validators=[DataRequired()])
     student_full_name = StringField("Student Name",validators=[DataRequired()])
     department_id = SelectField("Department",coerce=int, choices=[])
+    sessions = StringField("Session",validators=[DataRequired()])
     semester = SelectField("Semester",coerce=int,choices=[
             (1,"Semester 1"),
             (2,"Semester 2"),
@@ -30,5 +31,6 @@ class SelectSemesterAndDepartmentForm(FlaskForm):
     
     department_id = SelectField("Select Department",choices=[],coerce=int)
     semester = SelectField("Select Semester",choices=[],coerce=int)
+    sessions = SelectField("Select Session",choices=[],validators=[DataRequired()])
     group = SelectField("Select Group",choices=[])
     submit = SubmitField("Load Student")

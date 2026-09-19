@@ -15,7 +15,7 @@
         <div class="vs-header-icon">📋</div>
         <div>
             <h1>View Students</h1>
-            <p>Filter by department, semester and group to load the student list</p>
+            <p>Filter by department, semester,sessions and group to load the student list</p>
         </div>
     </div>
     <a href="{{ url_for('teacher_dashboard.teacher_dashboard') }}" class="as-back-btn">
@@ -44,6 +44,13 @@
                         <div class="mb-3">
                             {{ form.semester.label(class="form-label") }}
                             {{ form.semester(class="form-select") }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            {{ form.sessions.label(class="form-label") }}
+                            {{ form.sessions(class="form-select") }}
                         </div>
                     </div>
 

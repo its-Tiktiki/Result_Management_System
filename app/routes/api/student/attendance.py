@@ -1,6 +1,5 @@
 from flask import jsonify,Blueprint
 from app.models.teacher import Attendance
-from app.models.assign import Subjects
 
 attendance_api_bp = Blueprint(
     "attendance_api",
