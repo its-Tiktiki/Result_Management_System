@@ -1,108 +1,114 @@
 /* ==========================================================================
-   View Students — White / Light Theme
+   View Students -- same design as the Attendance page
+   (blue/cyan gradient + cool emerald/teal green)
    ========================================================================== */
 
-body {
-    background-color: #f1f6fc;
+/* ---------- Cool green (local to this page) ---------- */
+.container.mt-4 {
+    --att-green: #10b981;
+    --att-green-dark: #0d9488;
+    --att-green-text: #047857;
+    --att-green-gradient: linear-gradient(135deg, #10b981, #0d9488);
+    --att-green-tint: rgba(16, 185, 129, 0.10);
+    --att-green-glow: rgba(16, 185, 129, 0.30);
 }
 
 
 /* ==========================================================================
-   Page Header
+   Layout (header + container share the same width)
    ========================================================================== */
+
+.vs-page-header,
+.vs-page-header + .container {
+    width: calc(100% - 48px);
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .vs-page-header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-
-    width: calc(100% - 120px);
-    max-width: 1750px;
-
-    margin: 2rem auto 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 28px;
+    margin-bottom: 26px;
     padding: 0;
 }
+
+.vs-page-header + .container {
+    margin-top: 0 !important;
+    padding: 0 0 56px;
+}
+
+
+/* ==========================================================================
+   Page header (icon + title + back button)
+   ========================================================================== */
 
 .vs-header-left {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 16px;
 }
 
 .vs-header-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-
     width: 56px;
     height: 56px;
-
-    font-size: 1.5rem;
-    border-radius: 14px;
-
-    background: #eaf2ff;
+    font-size: 26px;
+    line-height: 1;
+    background: var(--primary-light);
+    border-radius: 16px;
+    flex-shrink: 0;
 }
 
 .vs-header-left h1 {
     margin: 0;
-
-    font-size: 1.8rem;
+    font-size: 28px;
     font-weight: 800;
-
-    color: #1557d6;
+    line-height: 1.15;
+    color: var(--primary-color);
 }
 
 .vs-header-left p {
-    margin: 0.2rem 0 0;
-
-    font-size: 1rem;
-    color: #6b7280;
+    margin: 4px 0 0;
+    font-size: 15px;
+    color: var(--medium-gray);
 }
 
 
 /* ==========================================================================
-   Back to Dashboard button
+   Back to Dashboard pill
    ========================================================================== */
 
 .as-back-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-
-    padding: 0.6rem 1.2rem;
-
-    font-size: 0.9rem;
-    font-weight: 600;
-
-    color: #1557d6;
-
-    background: #ffffff;
-    border: 1.5px solid #1557d6;
-    border-radius: 999px;
-
+    gap: 8px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-color);
+    background: var(--white);
+    border: 1.5px solid var(--primary-color);
+    border-radius: var(--radius-full);
     text-decoration: none;
     white-space: nowrap;
-
-    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    transition: background var(--transition-fast), color var(--transition-fast),
+                box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
 .as-back-btn:hover {
-    background: #1557d6;
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(21, 87, 214, 0.25);
-}
-
-
-/* ==========================================================================
-   Main Container
-   ========================================================================== */
-
-.vs-page-header + .container {
-    width: calc(100% - 120px);
-    max-width: 1750px;
-
-    margin-top: 0 !important;
+    background: var(--gradient-primary);
+    border-color: transparent;
+    color: var(--white);
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transform: translateX(-2px);
 }
 
 
@@ -110,349 +116,260 @@ body {
    Cards
    ========================================================================== */
 
-.vs-filter-card,
-.vs-table-card {
-    width: 100%;
-
-    border: 1px solid #e5e7eb;
-    border-radius: 14px;
-
+.container.mt-4 .card {
+    position: relative;
     overflow: hidden;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm) !important;
+    transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
 
-    background: #ffffff;
+.container.mt-4 .card:hover {
+    box-shadow: var(--shadow-md) !important;
+}
 
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+/* top accent stripe */
+.container.mt-4 .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    z-index: 1;
 }
 
 
 /* ==========================================================================
-   Filter Card Body
+   Card headers
    ========================================================================== */
 
-.vs-filter-card .card-body {
-    padding: 1.75rem;
+.container.mt-4 .card-header {
+    padding: 22px 26px 16px;
+    border-bottom: 1px solid var(--border-light);
+}
 
-    background: #ffffff;
+/* filter card header */
+.container.mt-4 .card-header.bg-primary {
+    background: var(--gradient-subtle) !important;
+    color: var(--primary-dark) !important;
+}
+
+.container.mt-4 .card-header.bg-primary h4 {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--primary-dark);
+}
+
+/* student list header */
+.container.mt-4 .card-header.bg-success {
+    background: var(--gradient-subtle) !important;
+    color: var(--primary-dark) !important;
+}
+
+.container.mt-4 .card-header.bg-success h5 {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--primary-dark);
 }
 
 
 /* ==========================================================================
-   Filter Form
+   Filter form
    ========================================================================== */
 
-.vs-filter-card .form-label {
-    display: block;
+.container.mt-4 .card-body {
+    padding: 24px 26px;
+}
 
-    margin-bottom: 0.5rem;
+.container.mt-4 .card-body.p-0 {
+    padding: 0;
+}
 
-    font-size: 0.95rem;
+.container.mt-4 .form-label {
+    margin-bottom: 6px;
+    font-size: 11px;
     font-weight: 700;
-
-    color: #374151;
-}
-
-.vs-filter-card .form-select {
-    width: 100%;
-
-    padding: 0.75rem 1rem;
-
-    font-size: 0.95rem;
-
-    color: #374151;
-
-    background-color: #ffffff;
-
-    border: 1.5px solid #d1d5db;
-    border-radius: 10px;
-
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.vs-filter-card .form-select:hover {
-    border-color: #9ca3af;
-}
-
-.vs-filter-card .form-select:focus {
-    outline: none;
-
-    background-color: #ffffff;
-
-    border-color: #2563eb;
-
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-
-    color: #374151;
-}
-
-.vs-filter-card .mb-3 {
-    margin-bottom: 1.35rem !important;
-}
-
-.vs-filter-card .row {
-    margin-left: -0.6rem;
-    margin-right: -0.6rem;
-}
-
-.vs-filter-card .row > [class*="col-"] {
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
-}
-
-
-/* ==========================================================================
-   Load Student Button
-   ========================================================================== */
-
-.vs-filter-card .btn-primary {
-    width: 100%;
-
-    padding: 0.85rem 1rem;
-
-    font-size: 1rem;
-    font-weight: 700;
-
-    color: #ffffff;
-
-    background: linear-gradient(
-        90deg,
-        #0d47f4 0%,
-        #0561e0 35%,
-        #12b7e8 100%
-    );
-
-    border: none;
-    border-radius: 999px;
-
-    box-shadow: 0 4px 10px rgba(13, 71, 244, 0.2);
-
-    transition: filter 0.15s ease, box-shadow 0.15s ease, transform 0.05s ease;
-}
-
-.vs-filter-card .btn-primary:hover {
-    filter: brightness(1.05);
-
-    box-shadow: 0 6px 14px rgba(13, 71, 244, 0.25);
-
-    transform: translateY(-1px);
-}
-
-.vs-filter-card .btn-primary:active {
-    transform: translateY(1px);
-}
-
-
-/* ==========================================================================
-   Student List Card
-   ========================================================================== */
-
-.vs-table-card {
-    margin-top: 1.5rem;
-}
-
-
-/* ==========================================================================
-   Student List Header
-   ========================================================================== */
-
-.vs-table-card .card-header {
-    border: none;
-
-    padding: 1.1rem 1.5rem;
-
-    background: linear-gradient(
-        90deg,
-        #059669 0%,
-        #10b981 100%
-    ) !important;
-}
-
-.vs-table-card .card-header h5 {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-
-    margin: 0;
-
-    color: #ffffff;
-
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.vs-table-card .card-header h5::before {
-    content: "🎓";
-    font-size: 1.05rem;
-}
-
-.vs-table-card .card-body {
-    background: #ffffff;
-}
-
-
-/* ==========================================================================
-   Student List Table
-   ========================================================================== */
-
-.vs-table-card .table {
-    margin-bottom: 0;
-
-    color: #374151;
-
-    background: transparent;
-
-    border: 0.5px solid #111827 !important;
-}
-
-.vs-table-card .table thead.table-dark th {
-    background: #ffffff;
-
-    border-color: #e5e7eb;
-
-    font-size: 0.78rem;
-    font-weight: 700;
-
-    letter-spacing: 0.05em;
     text-transform: uppercase;
-
-    color: #6b7280;
-
-    padding: 1rem 1.25rem;
+    letter-spacing: 0.08em;
+    color: var(--medium-gray);
 }
 
-.vs-table-card .table thead.table-dark th:last-child {
+.container.mt-4 .form-control,
+.container.mt-4 .form-select {
+    min-height: 44px;
+    font-size: 14px;
+    color: var(--text-dark);
+    background-color: var(--off-white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+                background-color var(--transition-fast);
+}
+
+.container.mt-4 .form-control:hover,
+.container.mt-4 .form-select:hover {
+    border-color: var(--primary-color);
+}
+
+.container.mt-4 .form-control:focus,
+.container.mt-4 .form-select:focus {
+    background-color: var(--white);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px var(--primary-rgba-20);
+    outline: none;
+}
+
+
+/* ==========================================================================
+   Load Students button
+   ========================================================================== */
+
+.container.mt-4 .btn-primary {
+    min-height: 44px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.container.mt-4 .btn-primary:hover,
+.container.mt-4 .btn-primary:focus {
+    background: var(--gradient-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+
+/* ==========================================================================
+   Student list table
+   ========================================================================== */
+
+.container.mt-4 .table {
+    margin: 0;
+    background: var(--white);
+    border: none;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* kill Bootstrap's striped/hover inset tint so our colors stay clean */
+.container.mt-4 .table > :not(caption) > * > * {
+    box-shadow: none !important;
+}
+
+.container.mt-4 .table thead th {
+    padding: 14px 26px;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.container.mt-4 .table thead th:last-child {
     text-align: center;
 }
 
-.vs-table-card .table td {
-    padding: 1rem 1.25rem;
-
-    font-size: 0.92rem;
-
-    color: #4b5563;
-
+.container.mt-4 .table tbody td {
+    padding: 14px 26px;
+    font-size: 14.5px;
+    color: var(--text-dark);
     vertical-align: middle;
-
-    border-color: #eef0f3;
-
-    background: transparent;
+    background: var(--white);
+    border: none;
+    border-bottom: 1px solid var(--border-light);
+    transition: background-color var(--transition-fast);
 }
 
-.vs-table-card .table td:first-child {
+.container.mt-4 .table tbody tr:nth-of-type(even) td {
+    background: var(--off-white);
+}
+
+.container.mt-4 .table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.container.mt-4 .table tbody tr:hover td {
+    background: var(--primary-rgba-5);
+}
+
+/* roll number */
+.container.mt-4 .table tbody td:first-child {
+    color: var(--medium-gray);
     font-weight: 700;
-    color: #1557d6;
     font-variant-numeric: tabular-nums;
 }
 
-.vs-table-card .table td:nth-child(2) {
+/* student name */
+.container.mt-4 .table tbody td:nth-child(2) {
     font-weight: 600;
-    color: #111827;
 }
 
-.vs-table-card .table td:nth-child(2)::before {
-    content: "👤";
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 30px;
-    height: 30px;
-
-    margin-right: 0.65rem;
-    vertical-align: middle;
-
-    border-radius: 50%;
-    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-
-    font-size: 0.8rem;
-}
-
-.vs-table-card .table td:last-child {
+/* action column */
+.container.mt-4 .table tbody td:last-child {
     text-align: center;
-}
-
-.vs-table-card .table-bordered,
-.vs-table-card .table-bordered th,
-.vs-table-card .table-bordered td {
-    border-color: #e5e7eb;
+    white-space: nowrap;
 }
 
 
 /* ==========================================================================
-   Striped Rows
+   Edit / Delete pills
    ========================================================================== */
 
-.vs-table-card .table-striped > tbody > tr > * {
-    background-color: #ffffff !important;
-
-    color: #374151;
-}
-
-
-/* ==========================================================================
-   Hover Rows
-   ========================================================================== */
-
-.vs-table-card .table-hover > tbody > tr:hover > * {
-    background-color: #f5f9ff;
-}
-
-
-/* ==========================================================================
-   Edit / Delete Buttons
-   ========================================================================== */
-
-.vs-table-card .btn-sm {
+.vs-table-card .table .btn-sm {
     display: inline-block;
-
-    padding: 0.4rem 0.95rem;
-
-    font-size: 0.82rem;
+    padding: 6px 16px;
+    font-size: 12.5px;
     font-weight: 700;
-
-    border-radius: 999px;
-
+    letter-spacing: 0.02em;
     border: none !important;
-
+    border-radius: var(--radius-full);
     box-shadow: none !important;
-
     text-decoration: none;
-
-    transition: background-color 0.15s ease, transform 0.05s ease;
+    transition: background var(--transition-fast), color var(--transition-fast),
+                transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-
-/* ==========================================================================
-   Edit
-   ========================================================================== */
-
-.vs-table-card .btn-success.btn-sm {
-    color: #059669;
-    background: #ecfdf5 !important;
+/* Edit -- cool green */
+.vs-table-card .table .btn-success.btn-sm {
+    color: var(--att-green-text) !important;
+    background: var(--att-green-tint) !important;
 }
 
-.vs-table-card .btn-success.btn-sm:hover {
-    color: #047857;
-    background: #d1fae5 !important;
+.vs-table-card .table .btn-success.btn-sm:hover {
+    color: var(--white) !important;
+    background: var(--att-green-gradient) !important;
+    box-shadow: 0 4px 10px var(--att-green-glow) !important;
+    transform: translateY(-1px);
 }
 
-
-/* ==========================================================================
-   Delete
-   ========================================================================== */
-
-.vs-table-card .btn-danger.btn-sm {
-    color: #dc2626;
-    background: #fef2f2 !important;
-    margin-left: 0.4rem;
+/* Delete */
+.vs-table-card .table .btn-danger.btn-sm {
+    margin-left: 8px;
+    color: var(--danger-color) !important;
+    background: var(--danger-light) !important;
 }
 
-.vs-table-card .btn-danger.btn-sm:hover {
-    color: #b91c1c;
-    background: #fee2e2 !important;
+.vs-table-card .table .btn-danger.btn-sm:hover {
+    color: var(--white) !important;
+    background: var(--danger-color) !important;
+    box-shadow: var(--shadow-sm) !important;
+    transform: translateY(-1px);
 }
 
-.vs-table-card .btn-sm:active {
-    transform: translateY(1px);
+.vs-table-card .table .btn-sm:active {
+    transform: translateY(0);
 }
 
 
@@ -460,59 +377,40 @@ body {
    Responsive
    ========================================================================== */
 
-@media (max-width: 991px) {
+@media (max-width: 768px) {
+
+    .vs-page-header,
+    .vs-page-header + .container {
+        width: calc(100% - 28px);
+    }
 
     .vs-page-header {
-        width: calc(100% - 60px);
-    }
-
-    .vs-page-header + .container {
-        width: calc(100% - 60px);
-    }
-}
-
-
-@media (max-width: 767px) {
-
-    .vs-filter-card .card-body {
-        padding: 1.25rem;
-    }
-}
-
-
-@media (max-width: 639px) {
-
-    .vs-page-header {
-        width: calc(100% - 40px);
-
-        margin: 1.25rem auto 1rem;
-
-        flex-wrap: wrap;
-    }
-
-    .vs-page-header + .container {
-        width: calc(100% - 40px);
-    }
-
-    .vs-header-icon {
-        width: 48px;
-        height: 48px;
-
-        font-size: 1.3rem;
+        margin-top: 20px;
+        margin-bottom: 18px;
     }
 
     .vs-header-left h1 {
-        font-size: 1.4rem;
+        font-size: 22px;
     }
 
     .vs-header-left p {
-        font-size: 0.85rem;
+        font-size: 13px;
     }
 
-    .vs-table-card .table td,
-    .vs-table-card .table thead.table-dark th {
-        padding: 0.65rem 0.6rem;
+    .vs-header-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 22px;
+    }
 
-        font-size: 0.82rem;
+    .container.mt-4 .card-header,
+    .container.mt-4 .card-body {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .container.mt-4 .table thead th,
+    .container.mt-4 .table tbody td {
+        padding: 12px 14px;
     }
 }
