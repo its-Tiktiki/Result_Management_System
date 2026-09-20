@@ -1,0 +1,14 @@
+[33mf14781a[m[33m ([m[1;31mupstream/addSessions[m[33m)[m Add Sessions all Teacher dashboard
+[33m83727eb[m[33m ([m[1;31mupstream/fixStudentDeleteProblem[m[33m)[m Fix student deleting problems
+[33m8945d18[m[33m ([m[1;31mupstream/MutipleAttendanceBugFix[m[33m)[m Fix Multiple Attendance System bugs and add subject by attendance system
+[33m61d0eef[m[33m ([m[1;31mupstream/API_version[m[33m)[m Add some
+[33m94494ff[m api
+[33m84cbcc6[m Format code in models
+[33m6138724[m[33m ([m[1;31mupstream/CGPA_Calculate_pdf[m[33m)[m add cgpa upload and views features
+[33me1ca758[m add filtering department system using teacher_id and change models code
+[33m0c03db2[m add student marks system and upadate add marks topic.
+[33mf701268[m add here Marks name system
+[33m1d505d8[m add some
+[33mf88eb16[m add student features and change db model add here department id
+[33m3b14185[m not changes
+[33m25e8eee[m add login system student

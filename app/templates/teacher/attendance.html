@@ -4,8 +4,27 @@
 Attendance
 {% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/student/attendance.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
+
+    <!-- Page Header -->
+    <div class="att-header">
+        <div class="att-header-left">
+            <div class="att-header-icon">✅</div>
+            <div>
+                <h1 class="att-title">Attendance</h1>
+                <p class="att-sub">Select date, department, sessions, semester, subject and group to load the student list</p>
+            </div>
+        </div>
+
+        <a href="{{ url_for('teacher_dashboard.teacher_dashboard') }}" class="btn-outline-pill">
+            &larr; Back to Dashboard
+        </a>
+    </div>
 
     <!-- =========================================================
          Attendance Selection Card
