@@ -1,314 +1,423 @@
 /* ==========================================================
-   Attendance page -- redesigned to match site palette
-   (blue/cyan gradient, no dark/black surfaces).
-   Uses colors.css tokens throughout.
+   Attendance page -- site palette (blue/cyan gradient)
+   Uses colors.css tokens + a cool emerald/teal green
+   for "present" and the save button.
    ========================================================== */
 
+/* ---------- Cool green (local to this page) ---------- */
+.container.mt-4 {
+    --att-green: #10b981;
+    --att-green-dark: #0d9488;
+    --att-green-text: #047857;
+    --att-green-gradient: linear-gradient(135deg, #10b981, #0d9488);
+    --att-green-tint: rgba(16, 185, 129, 0.10);
+    --att-green-glow: rgba(16, 185, 129, 0.30);
+}
+
+/* ---------- Container ---------- */
+.container.mt-4 {
+    max-width: 1080px;
+    padding-top: 28px;
+    padding-bottom: 56px;
+}
+
 /* ---------- Page header (icon + title + back button) ---------- */
-.page-header {
+.att-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 16px;
-    width: 100%;
-    padding: 20px 32px;
-    background: var(--white);
-    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 26px;
 }
 
-.page-header-left {
+.att-header-left {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
 }
 
-.page-header-icon {
+.att-header-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-md);
+    width: 56px;
+    height: 56px;
+    font-size: 26px;
+    line-height: 1;
     background: var(--primary-light);
-    color: var(--primary-color);
+    border-radius: 16px;
     flex-shrink: 0;
 }
 
-.page-header-icon svg {
-    width: 22px;
-    height: 22px;
-}
-
-.page-header-title {
+.att-title {
     margin: 0;
-    font-size: 18px;
+    font-size: 28px;
     font-weight: 800;
-    color: var(--text-dark);
+    line-height: 1.15;
+    color: var(--primary-color);
 }
 
-.page-header-sub {
-    margin: 2px 0 0;
-    font-size: 13px;
+.att-sub {
+    margin: 4px 0 0;
+    font-size: 15px;
     color: var(--medium-gray);
 }
 
+/* ---------- Back to dashboard pill ---------- */
 .btn-outline-pill {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 10px 20px;
-    font-size: 13.5px;
+    gap: 8px;
+    padding: 10px 22px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--primary-color);
     background: var(--white);
-    border: 1px solid var(--primary-color);
+    border: 1.5px solid var(--primary-color);
     border-radius: var(--radius-full);
     text-decoration: none;
     white-space: nowrap;
-    transition: background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
+    transition: background var(--transition-fast), color var(--transition-fast),
+                box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
 .btn-outline-pill:hover {
     background: var(--gradient-primary);
+    border-color: transparent;
     color: var(--white);
     text-decoration: none;
     box-shadow: var(--shadow-sm);
+    transform: translateX(-2px);
 }
 
-/* ---------- Container ---------- */
-.container.mt-4 {
-    max-width: 880px;
-    padding-top: 32px;
-    padding-bottom: 48px;
-}
-
-/* ---------- Stat cards ---------- */
-.container.mt-4 .row.mb-4 .card {
-    border: 1px solid var(--border-color) !important;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm) !important;
-    background: var(--white);
+/* ---------- Cards ---------- */
+.container.mt-4 .card {
     position: relative;
     overflow: hidden;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm) !important;
+    transition: box-shadow var(--transition-fast), transform var(--transition-fast);
 }
 
-.container.mt-4 .row.mb-4 .card::before {
+.container.mt-4 .card:hover {
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* top accent stripe */
+.container.mt-4 .card::before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--primary-color);
+    background: var(--gradient-primary);
+    z-index: 1;
 }
 
-.container.mt-4 .row.mb-4 .card.border-success {
-    border: 1px solid var(--border-color) !important;
+/* ---------- Card headers ---------- */
+.container.mt-4 .card-header {
+    padding: 22px 26px 16px;
+    border-bottom: 1px solid var(--border-light);
 }
 
-.container.mt-4 .row.mb-4 .card.border-success::before {
-    background: var(--success-color);
+/* selection card header */
+.container.mt-4 .card-header.bg-primary {
+    background: var(--gradient-subtle) !important;
+    color: var(--primary-dark) !important;
 }
 
-.container.mt-4 .row.mb-4 .card.border-danger {
-    border: 1px solid var(--border-color) !important;
+.container.mt-4 .card-header.bg-primary h4 {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--primary-dark);
 }
 
-.container.mt-4 .row.mb-4 .card.border-danger::before {
-    background: var(--danger-color);
+/* student list header */
+.container.mt-4 .card-header.bg-success {
+    background: var(--gradient-subtle) !important;
+    color: var(--primary-dark) !important;
 }
 
-.container.mt-4 .row.mb-4 .card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md) !important;
+.container.mt-4 .card-header.bg-success h5 {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--primary-dark);
 }
 
-.container.mt-4 .row.mb-4 .card-body {
-    padding: 24px 20px;
+.container.mt-4 .card-header .badge {
+    padding: 7px 14px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--primary-color) !important;
+    background: var(--white) !important;
+    border: 1px solid var(--primary-rgba-20);
+    border-radius: var(--radius-full);
 }
 
-.container.mt-4 .row.mb-4 h6 {
+/* ---------- Selection form ---------- */
+.container.mt-4 .card-body {
+    padding: 24px 26px;
+}
+
+.container.mt-4 .card-body.p-0 {
+    padding: 0;
+}
+
+.container.mt-4 .form-label {
+    margin-bottom: 6px;
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--medium-gray);
-    margin-bottom: 10px;
 }
 
-.container.mt-4 .row.mb-4 h3 {
-    font-size: 32px;
-    font-weight: 800;
-    margin: 0;
-    color: var(--primary-color);
-    font-variant-numeric: tabular-nums;
+.container.mt-4 .form-control,
+.container.mt-4 .form-select {
+    min-height: 44px;
+    font-size: 14px;
+    color: var(--text-dark);
+    background-color: var(--off-white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+                background-color var(--transition-fast);
 }
 
-.container.mt-4 .row.mb-4 h3.text-success {
-    color: var(--success-color) !important;
+.container.mt-4 .form-control:hover,
+.container.mt-4 .form-select:hover {
+    border-color: var(--primary-color);
 }
 
-.container.mt-4 .row.mb-4 h3.text-danger {
-    color: var(--danger-color) !important;
+.container.mt-4 .form-control:focus,
+.container.mt-4 .form-select:focus {
+    background-color: var(--white);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px var(--primary-rgba-20);
+    outline: none;
 }
 
-/* ---------- Attendance rate ---------- */
-.container.mt-4 .alert-info {
-    background: var(--gradient-subtle);
-    border: 1px solid var(--primary-rgba-20);
-    border-radius: var(--radius-lg);
-    padding: 20px 26px 22px;
-    text-align: left;
-}
-
-.progress-heading {
-    margin: 0;
-    font-size: 11px;
+/* ---------- Buttons ---------- */
+.container.mt-4 .btn-primary {
+    min-height: 44px;
+    font-size: 14px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--primary-dark);
-}
-
-.container.mt-4 .progress {
-    height: 24px;
+    color: var(--white);
+    background: var(--gradient-primary);
+    border: none;
     border-radius: var(--radius-full);
-    background: var(--white);
-    border: 1px solid var(--primary-rgba-20);
-    overflow: hidden;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.container.mt-4 .progress-bar {
-    background: var(--gradient-primary) !important;
-    font-size: 12px;
+.container.mt-4 .btn-primary:hover,
+.container.mt-4 .btn-primary:focus {
+    background: var(--gradient-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Save Attendance -- cool green */
+.container.mt-4 .btn-success {
+    font-size: 15px;
     font-weight: 700;
+    color: var(--white);
+    background: var(--att-green-gradient);
+    border: none;
     border-radius: var(--radius-full);
-    transition: width var(--transition-slow);
+    box-shadow: 0 6px 16px var(--att-green-glow);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+                filter var(--transition-fast);
+}
+
+.container.mt-4 .btn-success:hover,
+.container.mt-4 .btn-success:focus {
+    color: var(--white);
+    background: var(--att-green-gradient);
+    filter: brightness(1.06);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px var(--att-green-glow);
+}
+
+.container.mt-4 .btn-success:active {
+    transform: translateY(0);
 }
 
 /* ---------- Table ---------- */
 .container.mt-4 .table {
-    margin-top: 28px;
+    margin: 0;
     background: var(--white);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    border: none;
     border-collapse: separate;
     border-spacing: 0;
 }
 
 .container.mt-4 .table thead th {
+    padding: 14px 26px;
     background: var(--primary-light);
-    border: none;
-    border-bottom: 1px solid var(--border-color);
     color: var(--primary-dark);
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    padding: 14px 18px;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.container.mt-4 .table thead th:first-child {
-    border-top-left-radius: var(--radius-lg);
+.container.mt-4 .table tbody td {
+    padding: 14px 26px;
+    font-size: 14.5px;
+    color: var(--text-dark);
+    vertical-align: middle;
+    background: var(--white);
+    border: none;
+    border-bottom: 1px solid var(--border-light);
+    transition: background-color var(--transition-fast);
 }
 
-.container.mt-4 .table thead th:last-child {
-    border-top-right-radius: var(--radius-lg);
-}
-
-.container.mt-4 .table-bordered {
-    border: 1px solid var(--border-color);
+.container.mt-4 .table tbody tr:nth-of-type(even) td {
+    background: var(--off-white);
 }
 
 .container.mt-4 .table tbody tr:last-child td {
     border-bottom: none;
 }
 
-.container.mt-4 .table tbody tr:last-child td:first-child {
-    border-bottom-left-radius: var(--radius-lg);
-}
-
-.container.mt-4 .table tbody tr:last-child td:last-child {
-    border-bottom-right-radius: var(--radius-lg);
-}
-
-.container.mt-4 .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: var(--off-white);
-}
-
-.container.mt-4 .table-striped > tbody > tr:nth-of-type(even) {
-    background-color: var(--white);
-}
-
-.container.mt-4 .table tbody td {
-    padding: 14px 18px;
-    font-size: 14.5px;
-    color: var(--text-dark);
-    vertical-align: middle;
-    border: none;
-    border-bottom: 1px solid var(--border-light);
-}
-
+/* roll number */
 .container.mt-4 .table tbody td:first-child {
     color: var(--medium-gray);
-    font-weight: 600;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
 }
 
-.container.mt-4 .table tbody td:last-child {
-    border-right: none;
+/* student name */
+.container.mt-4 .table tbody td:nth-child(2) {
+    font-weight: 600;
 }
 
 .container.mt-4 .table tbody tr:hover td {
-    background-color: var(--primary-rgba-5);
+    background: var(--primary-rgba-5);
 }
 
-.container.mt-4 .badge {
-    font-size: 11.5px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    padding: 6px 14px;
-    border-radius: var(--radius-full);
+/* tint the row when student is marked present */
+.container.mt-4 .table tbody tr:has(input[value="P"]:checked) td {
+    background: var(--att-green-tint);
 }
 
-.container.mt-4 .badge.bg-success {
-    background: var(--success-light) !important;
-    color: var(--success-color);
+/* ---------- Present / Absent toggle pills ---------- */
+.container.mt-4 .form-check-inline {
+    position: relative;
+    margin: 0 8px 0 0;
+    padding: 0;
 }
 
-.container.mt-4 .badge.bg-danger {
-    background: var(--danger-light) !important;
-    color: var(--danger-color);
+/* hide the native radio, label becomes the pill */
+.container.mt-4 .form-check-input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    cursor: pointer;
+    z-index: 2;
 }
 
-/* ---------- Pagination ---------- */
-.container.mt-4 .pagination {
-    margin-top: 26px;
+.container.mt-4 .form-check-label {
+    display: inline-flex;
+    align-items: center;
     gap: 6px;
-}
-
-.container.mt-4 .page-item .page-link {
-    border: 1px solid var(--border-color);
+    padding: 7px 16px;
+    font-size: 12.5px;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em;
     background: var(--white);
-    color: var(--primary-color);
-    font-weight: 600;
-    font-size: 13.5px;
-    padding: 8px 14px;
-    border-radius: var(--radius-sm);
-    transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--transition-fast), color var(--transition-fast),
+                border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.container.mt-4 .page-item .page-link:hover {
-    background: var(--primary-light);
-    border-color: var(--primary-color);
+/* Present */
+.container.mt-4 .form-check-label.text-success {
+    color: var(--att-green-text) !important;
+    border-color: var(--att-green);
 }
 
-.container.mt-4 .page-item.active .page-link {
-    background: var(--gradient-primary);
+.container.mt-4 input[id^="present_"]:checked + .form-check-label {
+    background: var(--att-green-gradient);
     border-color: transparent;
-    color: var(--white);
+    color: var(--white) !important;
+    box-shadow: 0 4px 10px var(--att-green-glow);
+}
+
+.container.mt-4 input[id^="present_"]:checked + .form-check-label::before {
+    content: "\2713";
+}
+
+/* Absent */
+.container.mt-4 .form-check-label.text-danger {
+    color: var(--danger-color) !important;
+    border-color: var(--danger-color);
+}
+
+.container.mt-4 input[id^="absent_"]:checked + .form-check-label {
+    background: var(--danger-color);
+    color: var(--white) !important;
+    box-shadow: var(--shadow-sm);
+}
+
+.container.mt-4 input[id^="absent_"]:checked + .form-check-label::before {
+    content: "\2715";
+}
+
+/* hover on unchecked pills */
+.container.mt-4 .form-check-input:not(:checked) + .form-check-label:hover {
+    background: var(--off-white);
+}
+
+/* keyboard focus */
+.container.mt-4 .form-check-input:focus-visible + .form-check-label {
+    box-shadow: 0 0 0 4px var(--primary-rgba-20);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .container.mt-4 {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .att-title {
+        font-size: 22px;
+    }
+
+    .att-header-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 22px;
+    }
+
+    .container.mt-4 .card-header,
+    .container.mt-4 .card-body {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .container.mt-4 .table thead th,
+    .container.mt-4 .table tbody td {
+        padding: 12px 14px;
+    }
+
+    .container.mt-4 .form-check-inline {
+        display: block;
+        margin: 0 0 6px 0;
+    }
 }
