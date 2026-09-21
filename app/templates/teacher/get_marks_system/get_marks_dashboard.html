@@ -1,18 +1,206 @@
 {% extends "base/base.html"%}
 {% block title %} Get Marks Dashboard {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/get_marks_dashboard.css') }}">
+{% endblock %}
+
 {% block content%}
-<div class="box box-shadow">
-    <h2> Assign Subject dashoard</h2>
 
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('get_marks.show_student')}}">Assign Marks</a></li>
-            <li><a href="{{ url_for('get_marks.get_marks_topic_name')}}">Add marks System</a></li>
-            <li><a href="{{ url_for('get_marks.show_marks_system')}}">Show marks System</a></li>
-        </ul>
-
-    </nav>
+<!-- Page Header -->
+<div class="gm-page-header">
+    <div class="gm-header-left">
+        <div class="gm-header-icon">📝</div>
+        <div>
+            <h1>Assign Marks Dashboard</h1>
+            <p>Choose what you'd like to do with marks</p>
+        </div>
+    </div>
+    <a href="{{ url_for('teacher_dashboard.teacher_dashboard') }}" class="gm-back-btn">
+        <span>&larr;</span> Back to Dashboard
+    </a>
 </div>
 
+<div class="gm-container">
+    <div class="gm-flow" id="gmFlow">
+
+        <nav>
+            <ul class="gm-cards">
+
+                <!-- Left slot (starts as: setup) -->
+                <li class="gm-slot" data-pos="0" data-name="Add Marks System">
+                    <a href="{{ url_for('get_marks.get_marks_topic_name')}}" class="gm-card gm-indigo">
+                        <span class="gm-card-top">
+                            <span class="gm-card-icon">⚙️</span>
+                            <span class="gm-tag">Setup</span>
+                        </span>
+                        <span class="gm-card-text">
+                            <span class="gm-card-name">Add Marks System</span>
+                            <span class="gm-card-desc">Create a new marks topic for grading.</span>
+                        </span>
+                        <span class="gm-card-btn">
+                            <span class="gm-lbl-side">Open</span><span class="gm-lbl-main">Get started</span>
+                            <span class="gm-arrow">→</span>
+                        </span>
+                    </a>
+                </li>
+
+                <!-- Center slot (starts as: assign marks) -->
+                <li class="gm-slot" data-pos="1" data-name="Assign Marks">
+                    <a href="{{ url_for('get_marks.show_student')}}" class="gm-card gm-blue">
+                        <span class="gm-card-top">
+                            <span class="gm-card-icon">✍️</span>
+                            <span class="gm-tag">Main task</span>
+                        </span>
+                        <span class="gm-card-text">
+                            <span class="gm-card-name">Assign Marks</span>
+                            <span class="gm-card-desc">Select the class and subject, then enter marks for each student.</span>
+                        </span>
+                        <span class="gm-card-btn">
+                            <span class="gm-lbl-side">Open</span><span class="gm-lbl-main">Get started</span>
+                            <span class="gm-arrow">→</span>
+                        </span>
+                    </a>
+                </li>
+
+                <!-- Right slot (starts as: view) -->
+                <li class="gm-slot" data-pos="2" data-name="Show Marks System">
+                    <a href="{{ url_for('get_marks.show_marks_system')}}" class="gm-card gm-teal">
+                        <span class="gm-card-top">
+                            <span class="gm-card-icon">📊</span>
+                            <span class="gm-tag">View</span>
+                        </span>
+                        <span class="gm-card-text">
+                            <span class="gm-card-name">Show Marks System</span>
+                            <span class="gm-card-desc">See the marks topics you've already created.</span>
+                        </span>
+                        <span class="gm-card-btn">
+                            <span class="gm-lbl-side">Open</span><span class="gm-lbl-main">Get started</span>
+                            <span class="gm-arrow">→</span>
+                        </span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+        <!-- Swap buttons (shown only when JavaScript is running) -->
+        <button type="button" class="gm-swap gm-swap-left" aria-label="Bring Add Marks System to the center" title="Bring Add Marks System to the center">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        </button>
+
+        <button type="button" class="gm-swap gm-swap-right" aria-label="Bring Show Marks System to the center" title="Bring Show Marks System to the center">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>
+        </button>
+
+        <span class="gm-status" aria-live="polite"></span>
+
+    </div>
+</div>
+<script>
+(function () {
+    var flow = document.getElementById('gmFlow');
+    if (!flow) { return; }
+
+    var slots = Array.prototype.slice.call(flow.querySelectorAll('.gm-slot'));
+    if (slots.length < 3) { return; }
+
+    var leftBtn  = flow.querySelector('.gm-swap-left');
+    var rightBtn = flow.querySelector('.gm-swap-right');
+    var status   = flow.querySelector('.gm-status');
+
+    var EXIT  = 380; // keep in sync with .gm-leaving's transform duration
+    var ENTER = 500; // keep in sync with .gm-entering's transform duration
+    var reduced = window.matchMedia &&
+                  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // order[0] = left slot, order[1] = center slot, order[2] = right slot
+    var order = slots.slice();
+    var busy = false;
+
+    function nameOf(li) {
+        return li.getAttribute('data-name');
+    }
+
+    function place(li, pos) {
+        li.style.setProperty('--pos', pos);
+        li.setAttribute('data-pos', pos);
+    }
+
+    function updateLabels(announce) {
+        var leftText  = 'Bring ' + nameOf(order[0]) + ' to the center';
+        var rightText = 'Bring ' + nameOf(order[2]) + ' to the center';
+        leftBtn.setAttribute('aria-label', leftText);
+        leftBtn.setAttribute('title', leftText);
+        rightBtn.setAttribute('aria-label', rightText);
+        rightBtn.setAttribute('title', rightText);
+
+        if (announce && status) {
+            status.textContent = nameOf(order[1]) + ' is now in the center';
+        }
+    }
+
+    function render(announce) {
+        order.forEach(function (li, pos) { place(li, pos); });
+        updateLabels(announce);
+    }
+
+    /* dir =  1 : everything shifts right, the right card spins round to the left
+       dir = -1 : everything shifts left,  the left card spins round to the right */
+    function rotate(dir) {
+        if (busy) { return; }
+        busy = true;
+
+        var wrapper   = (dir === 1) ? order[2] : order[0];
+        var leaveEdge = (dir === 1) ? 'gm-edge-right' : 'gm-edge-left';
+        var enterEdge = (dir === 1) ? 'gm-edge-left'  : 'gm-edge-right';
+
+        var next = (dir === 1)
+            ? [order[2], order[0], order[1]]
+            : [order[1], order[2], order[0]];
+        var finalPos = next.indexOf(wrapper);
+
+        if (reduced) {
+            order = next;
+            render(true);
+            busy = false;
+            return;
+        }
+
+        // phase 1: the wrapper spins away toward the edge it's heading for,
+        // shrinking and fading as it turns edge-on -- the other two just slide
+        wrapper.classList.add('gm-wrap', 'gm-leaving', leaveEdge);
+
+        order = next;
+        order.forEach(function (li, pos) {
+            if (li !== wrapper) { place(li, pos); }
+        });
+        updateLabels(true);
+
+        window.setTimeout(function () {
+            // phase 2: silently relocate to the opposite edge, still invisible
+            wrapper.classList.remove('gm-leaving', leaveEdge);
+            wrapper.classList.add('gm-offstage', enterEdge);
+            place(wrapper, finalPos);
+            void wrapper.offsetWidth; // commit that position before animating again
+
+            // phase 3: spin back in from there and settle into place
+            wrapper.classList.remove('gm-offstage', enterEdge);
+            wrapper.classList.add('gm-entering');
+
+            window.setTimeout(function () {
+                wrapper.classList.remove('gm-entering', 'gm-wrap');
+                busy = false;
+            }, ENTER + 20);
+        }, EXIT);
+    }
+
+    leftBtn.addEventListener('click',  function () { rotate(1); });
+    rightBtn.addEventListener('click', function () { rotate(-1); });
+
+    flow.classList.add('gm-js');
+    render(false);
+})();
+</script>
 
 {% endblock %}
