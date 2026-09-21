@@ -1,0 +1,376 @@
+/* ============================================
+   TEACHER_DASHBOARD.CSS
+   Only loaded on the teacher dashboard.
+   Loads AFTER dashboard.css and overrides it.
+   Layout:  [ stat + help ]  |  [ bento action tiles ]
+   (compact sizing)
+   ============================================ */
+
+/* ── LAYOUT (columns stretch to equal height) ── */
+.td-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: var(--spacing-lg);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: var(--spacing-lg);
+  padding-bottom: var(--spacing-2xl);
+  align-items: stretch;
+}
+
+/* ── ENTRY ANIMATION ──────────────────────── */
+@keyframes td-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── LEFT COLUMN: TOTAL STUDENTS (gradient card) ── */
+.td-side .stat-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: space-between;
+  flex: 1 1 auto;                      /* grows to match the right column */
+  gap: var(--spacing-lg);
+  min-height: 180px;
+  padding: var(--spacing-lg);
+  border: none;
+  border-radius: var(--radius-xl);
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-md);
+  color: var(--white);
+  animation: td-rise .55s var(--ease-smooth) backwards;
+}
+
+/* dotted pattern, fades out toward the bottom-left */
+.td-side .stat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, .3) 1.3px, transparent 1.4px);
+  background-size: 18px 18px;
+  -webkit-mask-image: linear-gradient(225deg, #000 0%, transparent 65%);
+          mask-image: linear-gradient(225deg, #000 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* ring with soft halos */
+.td-side .stat-card::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  bottom: -80px;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, .25);
+  box-shadow:
+    0 0 0 28px rgba(255, 255, 255, .06),
+    0 0 0 56px rgba(255, 255, 255, .04);
+  pointer-events: none;
+}
+
+.td-side .stat-icon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  font-size: 1.4rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, .2);
+  border: 1px solid rgba(255, 255, 255, .35);
+  filter: none;
+}
+
+.td-side .stat-body {
+  position: relative;
+  z-index: 1;
+  gap: .35rem;
+}
+
+.td-side .stat-label {
+  font-size: .72rem;
+  letter-spacing: .14em;
+  color: rgba(255, 255, 255, .85);
+}
+
+.td-side .stat-value {
+  font-size: clamp(2.6rem, 5vw, 3.6rem);
+  line-height: .95;
+  color: var(--white);
+  background: none;
+  -webkit-text-fill-color: var(--white);
+}
+
+.td-side .stat-card .stat-glow {
+  width: 150px;
+  height: 150px;
+  right: -40px;
+  top: -50px;
+  opacity: .16;
+  background: var(--white);
+}
+
+/* ── LEFT COLUMN: HELP CARD (dashed, soft white) ── */
+.td-side .help-card {
+  padding: var(--spacing-md);
+  background: var(--white);
+  border: 1.5px dashed var(--primary-rgba-20);
+  box-shadow: none;
+  animation: td-rise .55s var(--ease-smooth) .08s backwards;
+}
+.td-side .help-card::before {
+  content: "💬";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 2px;
+  font-size: 1.1rem;
+  border-radius: var(--radius-md);
+  background: var(--primary-light);
+}
+.td-side .help-label { color: var(--text-dark); font-size: .92rem; }
+.td-side .help-sub   { color: var(--medium-gray); font-size: .8rem; }
+
+/* ── RIGHT COLUMN: BENTO ACTION TILES ─────── */
+.td-actions.dash-panel {
+  padding: var(--spacing-lg);
+}
+.td-actions .panel-header {
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+}
+
+.td-actions .action-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "attend attend"
+    "add    view"
+    "marks  marks";
+  gap: var(--spacing-sm);
+}
+
+/* which tile goes where (swap these to rearrange) */
+.td-actions .action-indigo { grid-area: attend; }
+.td-actions .action-blue   { grid-area: add; }
+.td-actions .action-teal   { grid-area: view; }
+.td-actions .action-amber  { grid-area: marks; }
+
+/* base tile (small, vertical) */
+.td-actions .action-item {
+  position: relative;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--spacing-sm);
+  min-height: 128px;
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  background: var(--off-white);
+  animation: td-rise .55s var(--ease-smooth) backwards;
+}
+.td-actions .action-item:nth-child(1) { animation-delay: .10s; }
+.td-actions .action-item:nth-child(2) { animation-delay: .16s; }
+.td-actions .action-item:nth-child(3) { animation-delay: .22s; }
+.td-actions .action-item:nth-child(4) { animation-delay: .28s; }
+
+.td-actions .action-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* wide tiles (attendance + marks) are horizontal */
+.td-actions .action-indigo,
+.td-actions .action-amber {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-md);
+  min-height: 80px;
+  padding-right: calc(var(--spacing-md) + 44px);
+}
+.td-actions .action-indigo .action-text,
+.td-actions .action-amber  .action-text {
+  justify-content: center;
+}
+.td-actions .action-indigo .action-arrow,
+.td-actions .action-amber  .action-arrow {
+  top: 50%;
+  margin-top: -14px;
+}
+
+/* featured tile: attendance */
+.td-actions .action-indigo {
+  min-height: 96px;
+  background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 60%, var(--white) 100%);
+  border-color: rgba(99, 102, 241, .25);
+}
+.td-actions .action-indigo .action-icon-wrap {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+.td-actions .action-indigo .action-name { font-size: 1.02rem; }
+
+/* hover tints per tile */
+.td-actions .action-blue:hover   { background: var(--primary-light);   border-color: var(--primary-rgba-20); }
+.td-actions .action-teal:hover   { background: var(--secondary-light); border-color: rgba(0, 153, 204, .25); }
+.td-actions .action-indigo:hover { background: #eef2ff;                border-color: rgba(99, 102, 241, .35); }
+.td-actions .action-amber:hover  { background: var(--warning-light);   border-color: rgba(245, 158, 11, .25); }
+
+/* icon box */
+.td-actions .action-icon-wrap {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  font-size: 1.3rem;
+  border-radius: var(--radius-md);
+  box-shadow: none;
+}
+.td-actions .action-blue  .action-icon-wrap { background: var(--primary-light); }
+.td-actions .action-teal  .action-icon-wrap { background: var(--secondary-light); }
+.td-actions .action-amber .action-icon-wrap { background: var(--warning-light); }
+
+.td-actions .action-item:hover .action-icon-wrap {
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  transform: scale(1.08) rotate(-4deg);
+}
+
+/* text sits at the bottom of small tiles */
+.td-actions .action-text {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  justify-content: flex-end;
+  gap: .15rem;
+}
+.td-actions .action-name { font-size: .95rem; }
+.td-actions .action-desc { font-size: .76rem; }
+
+/* arrow badge, points up-right */
+.td-actions .action-arrow {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  font-size: .9rem;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  transform: rotate(-45deg);
+}
+.td-actions .action-item:hover .action-arrow {
+  transform: rotate(-45deg) translateX(3px);
+  color: var(--primary-color);
+}
+
+/* faint watermark numbers */
+.td-actions .action-item::after {
+  position: absolute;
+  right: 14px;
+  bottom: 2px;
+  z-index: 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.04em;
+  opacity: .08;
+  pointer-events: none;
+}
+.td-actions .action-indigo::after,
+.td-actions .action-amber::after {
+  right: 58px;
+  bottom: 0;
+}
+.td-actions .action-indigo::after { content: "01"; color: #6366f1; }
+.td-actions .action-blue::after   { content: "02"; color: var(--primary-color); }
+.td-actions .action-teal::after   { content: "03"; color: var(--secondary-dark); }
+.td-actions .action-amber::after  { content: "04"; color: var(--warning-color); }
+
+/* ── RESPONSIVE ───────────────────────────── */
+@media (max-width: 1100px) {
+  .td-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .td-side .stat-card {
+    min-height: 170px;
+  }
+}
+
+@media (max-width: 768px) {
+  .td-layout {
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-md);
+  }
+  .td-actions.dash-panel {
+    padding: var(--spacing-md);
+  }
+}
+
+@media (max-width: 640px) {
+  /* all tiles become full-width rows */
+  .td-actions .action-list {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "attend"
+      "add"
+      "view"
+      "marks";
+  }
+  .td-actions .action-item {
+    flex-direction: row;
+    align-items: center;
+    min-height: 0;
+    padding-right: calc(var(--spacing-md) + 44px);
+  }
+  .td-actions .action-icon-wrap,
+  .td-actions .action-indigo .action-icon-wrap {
+    width: 42px;
+    height: 42px;
+    font-size: 1.3rem;
+  }
+  .td-actions .action-text {
+    justify-content: center;
+  }
+  .td-actions .action-arrow {
+    top: 50%;
+    margin-top: -14px;
+  }
+  .td-actions .action-item::after {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .td-side .stat-card {
+    min-height: 150px;
+    padding: var(--spacing-md);
+  }
+  .td-side .stat-value {
+    font-size: 2.8rem;
+  }
+}
+
+/* ── REDUCED MOTION ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .td-side .stat-card,
+  .td-side .help-card,
+  .td-actions .action-item {
+    animation: none;
+  }
+}

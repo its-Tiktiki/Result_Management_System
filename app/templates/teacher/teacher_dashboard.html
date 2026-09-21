@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/teacher_dashboard.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -28,21 +29,30 @@
   </div>
 </header>
 
-<!-- Stats row -->
-<div class="dash-stats">
-    <div class="stat-card stat-primary anim-slide visible">
-        <div class="stat-icon">🎓</div>
-        <div class="stat-body">
-            <span class="stat-label">Total Students</span>
-            <span class="stat-value">{{ total_student }}</span>
-        </div>
-        <div class="stat-glow"></div>
-    </div>
-</div>
+<!-- ── MAIN LAYOUT ── -->
+<div class="td-layout">
 
-<!-- Main grid -->
-<div class="dash-grid">
-    <div class="dash-panel">
+    <!-- Left column: total students + help -->
+    <div class="dash-side td-side">
+
+        <div class="stat-card stat-primary anim-slide visible">
+            <div class="stat-icon">🎓</div>
+            <div class="stat-body">
+                <span class="stat-label">Total Students</span>
+                <span class="stat-value">{{ total_student }}</span>
+            </div>
+            <div class="stat-glow"></div>
+        </div>
+
+        <div class="help-card">
+            <p class="help-label">Need help?</p>
+            <p class="help-sub">Reach out to admin support if something isn't working as expected.</p>
+        </div>
+
+    </div>
+
+    <!-- Right column: quick action tiles -->
+    <div class="dash-panel td-actions">
         <div class="panel-header">
             <h2 class="panel-title">Quick Actions</h2>
             <span class="panel-chip">Menu</span>
@@ -83,12 +93,6 @@
         </div>
     </div>
 
-    <div class="dash-side">
-        <div class="help-card">
-            <p class="help-label">Need help?</p>
-            <p class="help-sub">Reach out to admin support if something isn't working as expected.</p>
-        </div>
-    </div>
 </div>
 
 {% endblock %}
