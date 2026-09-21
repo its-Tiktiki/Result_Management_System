@@ -157,6 +157,94 @@
 .stat-indigo  .stat-glow  { background: #6366f1; }
 .stat-amber   .stat-glow  { background: var(--warning-color); }
 
+/* ── SINGLE STAT CARD (e.g. teacher dashboard) ──
+   Only applies when the stats row has exactly ONE card,
+   so admin / principal dashboards are not affected.       */
+.dash-stats:has(> .stat-card:only-child) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.dash-stats:has(> .stat-card:only-child) > .stat-card {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+  padding-left: calc(var(--spacing-xl) + 6px);
+  border: 1px solid var(--primary-rgba-20);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at 100% 0%, var(--primary-rgba-10) 0%, transparent 45%),
+    var(--white);
+}
+
+/* gradient accent bar on the left edge */
+.dash-stats:has(> .stat-card:only-child) > .stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 6px;
+  background: var(--gradient-primary);
+}
+
+/* icon in a soft rounded box */
+.dash-stats:has(> .stat-card:only-child) .stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  font-size: 2.2rem;
+  border-radius: var(--radius-lg);
+  background: var(--primary-light);
+  box-shadow: inset 0 0 0 1px var(--primary-rgba-20);
+  filter: none;
+}
+
+.dash-stats:has(> .stat-card:only-child) .stat-body {
+  gap: .4rem;
+}
+
+.dash-stats:has(> .stat-card:only-child) .stat-label {
+  font-size: .82rem;
+  letter-spacing: .12em;
+}
+
+/* big gradient number */
+.dash-stats:has(> .stat-card:only-child) .stat-value {
+  font-size: clamp(2.4rem, 5vw, 3.2rem);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* bigger, softer glow on the right */
+.dash-stats:has(> .stat-card:only-child) .stat-glow {
+  width: 260px;
+  height: 260px;
+  right: -70px;
+  top: -110px;
+  opacity: .08;
+}
+
+@media (max-width: 480px) {
+  .dash-stats:has(> .stat-card:only-child) > .stat-card {
+    padding: var(--spacing-lg);
+    padding-left: calc(var(--spacing-lg) + 6px);
+    gap: var(--spacing-md);
+  }
+  .dash-stats:has(> .stat-card:only-child) .stat-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 1.7rem;
+  }
+  .dash-stats:has(> .stat-card:only-child) .stat-value {
+    font-size: 2.2rem;
+  }
+}
+
 /* ── MAIN GRID ────────────────────────────── */
 .dash-grid {
   display: grid;
