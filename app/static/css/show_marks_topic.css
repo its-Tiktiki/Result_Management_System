@@ -1,0 +1,517 @@
+/* =========================================================
+   MARKS TOPIC PAGE
+   ========================================================= */
+
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.marks-card {
+    position: relative;
+
+    background: #ffffff;
+
+    border: 1px solid #cfe3f5;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 2px 6px rgba(15, 23, 42, 0.05);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   BLUE / CYAN TOP BORDER
+   ========================================================= */
+
+.marks-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 5px;
+
+    background: linear-gradient(
+        90deg,
+        #0878d1 0%,
+        #00c6ed 100%
+    );
+
+    z-index: 3;
+}
+
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.marks-card-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 24px 22px 18px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #d7e7f4;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+}
+
+
+/* =========================================================
+   HEADER INFORMATION
+   ========================================================= */
+
+.marks-header-info {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.marks-title {
+    font-size: 1.05rem;
+
+    font-weight: 600;
+
+    margin: 0 0 2px;
+
+    color: #0f172a;
+}
+
+
+/* =========================================================
+   SUBTITLE
+   ========================================================= */
+
+.marks-subtitle {
+    font-size: 0.8rem;
+
+    margin: 0;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   HEADER ACTIONS
+   ========================================================= */
+
+.marks-header-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
+
+.btn-back {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.35rem;
+
+    font-size: 0.82rem;
+
+    font-weight: 600;
+
+    color: #64748b;
+
+    text-decoration: none;
+
+    flex-shrink: 0;
+
+    transition:
+        color 0.15s ease,
+        transform 0.15s ease;
+}
+
+
+.btn-back:hover {
+    color: #0878d1;
+
+    transform: translateX(-2px);
+}
+
+
+.btn-back i {
+    font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   NEW SYSTEM BUTTON
+   ========================================================= */
+
+.btn-new {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    font-size: 0.8rem;
+
+    font-weight: 600;
+
+    padding: 9px 17px;
+
+    border-radius: 999px;
+
+    text-decoration: none;
+
+    border: none;
+
+    cursor: pointer;
+
+    color: #ffffff;
+
+    background: linear-gradient(
+        135deg,
+        #0878d1 0%,
+        #00b9ed 100%
+    );
+
+    box-shadow:
+        0 3px 8px rgba(8, 120, 209, 0.20);
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        opacity 0.15s ease;
+}
+
+
+.btn-new:hover {
+    color: #ffffff;
+
+    opacity: 0.95;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 12px rgba(8, 120, 209, 0.28);
+}
+
+
+.btn-new i {
+    font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.marks-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   Soft blue → cyan background
+   ========================================================= */
+
+.marks-table thead {
+    background: linear-gradient(
+        105deg,
+        #e5efff 0%,
+        #e1f6fb 100%
+    );
+
+    /*
+       Gradient border/line underneath the header.
+       This matches the blue → cyan line at the top.
+    */
+
+    background-image:
+        linear-gradient(
+            105deg,
+            #e5efff 0%,
+            #e1f6fb 100%
+        ),
+        linear-gradient(
+            90deg,
+            #0878d1 0%,
+            #00c6ed 100%
+        );
+
+    background-size:
+        100% calc(100% - 3px),
+        100% 3px;
+
+    background-position:
+        top,
+        bottom;
+
+    background-repeat:
+        no-repeat;
+}
+
+
+/* =========================================================
+   TABLE HEADER CELLS
+   ========================================================= */
+
+.marks-table thead th {
+    text-align: left;
+
+    padding: 0.7rem 1.375rem;
+
+    font-weight: 600;
+
+    font-size: 0.8rem;
+
+    color: #0874c9;
+
+    background: transparent;
+
+    border: none;
+}
+
+
+/* =========================================================
+   TABLE BODY
+   ========================================================= */
+
+.marks-table tbody tr {
+    background: #ffffff;
+
+    border-bottom: 1px solid #e1ebf4;
+
+    transition:
+        background 0.15s ease;
+}
+
+
+.marks-table tbody tr:nth-child(even) {
+    background: #f9fcff;
+}
+
+
+.marks-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+
+.marks-table tbody tr:hover {
+    background: #f0f7ff;
+}
+
+
+/* =========================================================
+   TABLE CELLS
+   ========================================================= */
+
+.marks-table td {
+    padding: 0.8rem 1.375rem;
+
+    vertical-align: middle;
+}
+
+
+/* =========================================================
+   ID
+   ========================================================= */
+
+.cell-id {
+    color: #64748b;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   MARKS SYSTEM NAME
+   ========================================================= */
+
+.cell-name {
+    color: #0f172a;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   RIGHT ALIGNMENT
+   ========================================================= */
+
+.text-end {
+    text-align: right;
+}
+
+
+/* =========================================================
+   EMPTY ROW
+   ========================================================= */
+
+.empty-row {
+    text-align: center;
+
+    color: #94a3b8;
+
+    padding: 2.5rem 1rem;
+}
+
+
+/* =========================================================
+   DELETE FORM
+   ========================================================= */
+
+.delete-form {
+    display: inline;
+}
+
+
+/* =========================================================
+   ACTION PILLS
+   ========================================================= */
+
+.pill {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 72px;
+
+    font-size: 0.78rem;
+
+    font-weight: 700;
+
+    padding: 0.48rem 0.95rem;
+
+    border-radius: 999px;
+
+    border: none;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    margin-left: 0.55rem;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        transform 0.15s ease;
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+   ========================================================= */
+
+.pill-edit {
+    background: #e3f6f0;
+
+    color: #087f63;
+}
+
+
+.pill-edit:hover {
+    background: #d3f0e7;
+
+    color: #067055;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+   ========================================================= */
+
+.pill-delete {
+    background: #fde2e3;
+
+    color: #ed4548;
+}
+
+
+.pill-delete:hover {
+    background: #fbd3d5;
+
+    color: #dc3438;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 576px) {
+
+    .marks-card-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .marks-header-actions {
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+
+    .btn-new {
+        flex: 1;
+
+        justify-content: center;
+    }
+
+
+    .marks-table {
+        font-size: 0.82rem;
+    }
+
+
+    .marks-table thead th,
+    .marks-table td {
+        padding: 0.65rem 0.8rem;
+    }
+
+
+    .pill {
+        min-width: 60px;
+
+        padding: 0.4rem 0.7rem;
+
+        font-size: 0.75rem;
+
+        margin-left: 0.25rem;
+    }
+}
