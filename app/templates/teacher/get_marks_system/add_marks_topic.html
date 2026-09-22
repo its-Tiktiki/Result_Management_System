@@ -4,14 +4,33 @@
 Marks Topic Name
 {% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add_marks_topic.css') }}">
+{% endblock %}
+
 {% block content %}
+
+<!-- Page Header -->
+<div class="amt-page-header">
+    <div class="amt-header-left">
+        <div class="amt-header-icon">⚙️</div>
+        <div>
+            <h1>Add Marks Topic</h1>
+            <p>Create a new marking topic and set how many marks it's out of</p>
+        </div>
+    </div>
+    <a href="{{ url_for('get_marks_dashboard.get_marks_dashboard') }}" class="amt-back-btn">
+        <span>&larr;</span> Back to Dashboard
+    </a>
+</div>
 
 <div class="container mt-4">
 
-    <div class="card shadow">
+    <div class="card shadow amt-card">
 
         <div class="card-header">
-            <h4>Add Marks Topic</h4>
+            <h4>Topic Details</h4>
+            <p class="amt-card-sub">Choose the department and subject, then name the topic and set its full marks</p>
         </div>
 
         <div class="card-body">
@@ -22,20 +41,24 @@ Marks Topic Name
                 <div class="mb-3">
                     {{ form.department_id.label(class="form-label") }}
                     {{ form.department_id(class="form-select") }}
+                    <p class="amt-help">The department this topic belongs to</p>
                 </div>
                 <div class="mb-3">
                     {{ form.subject.label(class="form-label") }}
                     {{ form.subject(class="form-select") }}
+                    <p class="amt-help">The subject you're setting up marks for</p>
                 </div>
 
                 <div class="mb-3">
                     {{ form.add_marks_topic_name.label(class="form-label") }}
                     {{ form.add_marks_topic_name(class="form-control") }}
+                    <p class="amt-help">e.g. Midterm, Final Exam, Quiz 1, Assignment 2</p>
                 </div>
 
                 <div class="mb-3">
                     {{ form.full_marks.label(class="form-label") }}
                     {{ form.full_marks(class="form-control") }}
+                    <p class="amt-help">The maximum marks a student can score in this topic</p>
                 </div>
 
                 
