@@ -3,6 +3,10 @@
    (blue/cyan gradient palette)
    ========================================================================== */
 
+:root {
+    --amt-text-secondary: #4b5468; /* darker than --medium-gray, used only on this page */
+}
+
 /* ---------- Layout (header + container share the same width) ---------- */
 .amt-page-header,
 .container.mt-4 {
@@ -33,11 +37,11 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    min-width: 0; /* let the text block shrink and wrap instead of overflowing */
+    min-width: 0;
 }
 
 .amt-header-left > div {
-    min-width: 0; /* same fix applied to the title/subtitle wrapper */
+    min-width: 0;
 }
 
 .amt-header-icon {
@@ -64,7 +68,7 @@
 .amt-header-left p {
     margin: 4px 0 0;
     font-size: 14.5px;
-    color: var(--medium-gray);
+    color: var(--amt-text-secondary);
 }
 
 
@@ -107,7 +111,6 @@
     box-shadow: var(--shadow-sm) !important;
 }
 
-/* top accent stripe */
 .amt-card::before {
     content: "";
     position: absolute;
@@ -135,7 +138,7 @@
 .amt-card-sub {
     margin: 6px 0 0;
     font-size: 13px;
-    color: var(--medium-gray);
+    color: var(--amt-text-secondary);
 }
 
 .amt-card .card-body {
@@ -146,17 +149,17 @@
 /* ---------- Form ---------- */
 .amt-card .form-label {
     margin-bottom: 6px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--medium-gray);
+    letter-spacing: 0.06em;
+    color: var(--text-dark);
 }
 
 .amt-card .form-control,
 .amt-card .form-select {
     min-height: 44px;
-    font-size: 14px;
+    font-size: 15px;
     color: var(--text-dark);
     background-color: var(--off-white);
     border: 1px solid var(--border-color);
@@ -182,11 +185,8 @@
     margin-bottom: 20px !important;
 }
 
-/* helper text under each field */
-.amt-help {
-    margin: 6px 0 0;
-    font-size: 12px;
-    color: var(--medium-gray);
+.amt-card .mb-3:last-child {
+    margin-bottom: 0 !important;
 }
 
 
@@ -209,10 +209,6 @@
     background: var(--gradient-primary);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
-}
-
-.amt-card .mb-3:last-child {
-    margin-bottom: 0 !important;
 }
 
 
