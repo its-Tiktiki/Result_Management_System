@@ -1,0 +1,247 @@
+/* ==========================================================================
+   Add Marks Topic -- same design language as the other teacher pages
+   (blue/cyan gradient palette)
+   ========================================================================== */
+
+/* ---------- Layout (header + container share the same width) ---------- */
+.amt-page-header,
+.container.mt-4 {
+    width: calc(100% - 48px);
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.amt-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 16px;
+    margin-top: 28px;
+    margin-bottom: 26px;
+}
+
+.container.mt-4 {
+    margin-top: 0 !important;
+    padding-bottom: 56px;
+}
+
+
+/* ---------- Page header (icon + title + back button) ---------- */
+.amt-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 0; /* let the text block shrink and wrap instead of overflowing */
+}
+
+.amt-header-left > div {
+    min-width: 0; /* same fix applied to the title/subtitle wrapper */
+}
+
+.amt-header-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    font-size: 26px;
+    line-height: 1;
+    background: var(--primary-light);
+    border-radius: 16px;
+    flex-shrink: 0;
+}
+
+.amt-header-left h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--primary-color);
+}
+
+.amt-header-left p {
+    margin: 4px 0 0;
+    font-size: 14.5px;
+    color: var(--medium-gray);
+}
+
+
+/* ---------- Back to Dashboard pill ---------- */
+.amt-back-btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-color);
+    background: var(--white);
+    border: 1.5px solid var(--primary-color);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background var(--transition-fast), color var(--transition-fast),
+                box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.amt-back-btn:hover {
+    background: var(--gradient-primary);
+    border-color: transparent;
+    color: var(--white);
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transform: translateX(-2px);
+}
+
+
+/* ---------- Card ---------- */
+.amt-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm) !important;
+}
+
+/* top accent stripe */
+.amt-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    z-index: 1;
+}
+
+.amt-card .card-header {
+    padding: 22px 26px 16px;
+    background: var(--gradient-subtle);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.amt-card .card-header h4 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--primary-dark);
+}
+
+.amt-card-sub {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: var(--medium-gray);
+}
+
+.amt-card .card-body {
+    padding: 26px;
+}
+
+
+/* ---------- Form ---------- */
+.amt-card .form-label {
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--medium-gray);
+}
+
+.amt-card .form-control,
+.amt-card .form-select {
+    min-height: 44px;
+    font-size: 14px;
+    color: var(--text-dark);
+    background-color: var(--off-white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+                background-color var(--transition-fast);
+}
+
+.amt-card .form-control:hover,
+.amt-card .form-select:hover {
+    border-color: var(--primary-color);
+}
+
+.amt-card .form-control:focus,
+.amt-card .form-select:focus {
+    background-color: var(--white);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px var(--primary-rgba-20);
+    outline: none;
+}
+
+.amt-card .mb-3 {
+    margin-bottom: 20px !important;
+}
+
+/* helper text under each field */
+.amt-help {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: var(--medium-gray);
+}
+
+
+/* ---------- Submit button ---------- */
+.amt-card .btn-primary {
+    min-height: 44px;
+    padding: 0 28px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.amt-card .btn-primary:hover,
+.amt-card .btn-primary:focus {
+    background: var(--gradient-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.amt-card .mb-3:last-child {
+    margin-bottom: 0 !important;
+}
+
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .amt-page-header,
+    .container.mt-4 {
+        width: calc(100% - 28px);
+    }
+
+    .amt-page-header {
+        flex-wrap: wrap;
+        margin-top: 20px;
+        margin-bottom: 18px;
+    }
+
+    .amt-header-left h1 {
+        font-size: 21px;
+    }
+
+    .amt-header-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 22px;
+    }
+
+    .amt-card .card-header,
+    .amt-card .card-body {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+}
