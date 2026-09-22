@@ -51,34 +51,67 @@ Add Marks
 </div>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
 
-document.addEventListener("DOMContentLoaded", function () {
+        const subject = document.getElementById("subject");
+        const marksTopic = document.getElementById("marks_topic");
 
-    const subject = document.getElementById("subject");
-    const marksTopic = document.getElementById("marks_topic");
+        function resetMarksTopic(text = "Select Marks Topic") {
+            marksTopic.innerHTML = "";
 
-    marksTopic.innerHTML =
-        '<option value="">Select Marks Topic</option>';
+            const option = document.createElement("option");
+            option.value = "";
+            option.textContent = text;
 
-    subject.addEventListener("change", function () {
-
-        const subjectId = this.value;
-
-        marksTopic.innerHTML =
-            '<option value="">Loading...</option>';
-
-        if (!subjectId) {
-            marksTopic.innerHTML =
-                '<option value="">Select Marks Topic</option>';
-            return;
+            marksTopic.appendChild(option);
         }
 
-        fetch(`/get_marks_topic/api/marks-topic/${subjectId}`)
-            .then(response => response.json())
-            .then(data => {
+        resetMarksTopic();
 
-                marksTopic.innerHTML =
-                    '<option value="">Select Marks Topic</option>';
+        let requestController = null;
+
+        subject.addEventListener("change", async function () {
+
+            const subjectId = this.value;
+
+            resetMarksTopic();
+
+            if (!subjectId) {
+                return;
+            }
+
+            // Cancel previous request
+            if (requestController) {
+                requestController.abort();
+            }
+
+            requestController = new AbortController();
+
+            resetMarksTopic("Loading...");
+
+            try {
+
+                const response = await fetch(
+                    `/get_marks_topic/api/marks-topic/${subjectId}?t=${Date.now()}`,
+                    {
+                        method: "GET",
+                        cache: "no-store",
+                        signal: requestController.signal
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                resetMarksTopic();
+
+                if (data.length === 0) {
+                    resetMarksTopic("No Marks Topic Found");
+                    return;
+                }
 
                 data.forEach(topic => {
 
@@ -88,22 +121,22 @@ document.addEventListener("DOMContentLoaded", function () {
                     option.textContent = topic.name;
 
                     marksTopic.appendChild(option);
-
                 });
 
-            })
-            .catch(error => {
+            } catch (error) {
 
-                console.error(error);
+                if (error.name === "AbortError") {
+                    return;
+                }
 
-                marksTopic.innerHTML =
-                    '<option value="">Failed to load topics</option>';
+                console.error("Marks Topic Error:", error);
 
-            });
+                resetMarksTopic("Failed to load topics");
+            }
+
+        });
 
     });
-
-});
 
 </script>
 
