@@ -5,47 +5,67 @@
   <h2>All Marks System</h2>
 
   <table class="table table-bordered table-striped">
+
     <thead>
       <tr>
-        <th>Marks System ID</th>
+        <th>Subject Name</th>
         <th>Marks System Name</th>
+        <th>Full Marks</th>
         <th>Action</th>
       </tr>
     </thead>
 
     <tbody>
-      {% for mtn in marks_topic_name  %}
+
+      {% for mtn in marks_topic_name %}
 
       <tr>
-        <td>{{ mtn.marks_topic_id }}</td>
-        <td>{{ mtn.marks_topic_name }}</td>
+
         <td>
-          <a
-            href="{{ url_for('get_marks.edit_mark_topic',marks_topic_id=mtn.marks_topic_id)}}"
-          >
-            <button class="btn btn-primary btn-sm">Edit</button></a
-          >
-          <form
-            action="{{ url_for('get_marks.delete_mark_topic', marks_topic_id=mtn.marks_topic_id) }}"
-            method="POST"
-            style="display: inline"
-          >
-            <button
-              type="submit"
-              class="btn btn-danger btn-sm"
-              onclick="
-                return confirm('Are you sure you want to delete this subject?');
-              "
-            >
+          {{ mtn.subject.subject_name }}
+        </td>
+
+        <td>
+          {{ mtn.marks_topic_name }}
+        </td>
+
+        <td>
+          {{ mtn.full_marks }}
+        </td>
+
+        <td>
+
+          <a href="{{ url_for(
+                    'get_marks.edit_mark_topic',
+                    marks_topic_id=mtn.marks_topic_id
+                ) }}">
+            <button class="btn btn-primary btn-sm">
+              Edit
+            </button>
+          </a>
+
+          <form action="{{ url_for(
+                        'get_marks.delete_mark_topic',
+                        marks_topic_id=mtn.marks_topic_id
+                    ) }}" method="POST" style="display: inline">
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(
+                            'Are you sure you want to delete this marks topic?'
+                        );">
               Delete
             </button>
           </form>
+
         </td>
+
       </tr>
 
       {% endfor %}
+
     </tbody>
+
   </table>
+
+
 </div>
 
 {% endblock %}

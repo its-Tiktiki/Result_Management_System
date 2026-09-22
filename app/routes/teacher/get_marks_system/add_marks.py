@@ -37,13 +37,15 @@ def add_marks(student_id):
         .all()
     )
     form.subject.choices = [
-        (
-            s.subject_id,
-            f"{s.subject_code} - {s.subject_name}"
-        )
-        for s in subjects
-    ]
-
+        (0, "Select Subject")
+        ] + [
+            (
+                s.subject_id,
+                f"{s.subject_code} - {s.subject_name}"
+            )
+                for s in subjects
+        ]
+        
     if form.subject.data:
         topics = MarksTopic.query.filter_by(
             teacher_id=teacher_id,

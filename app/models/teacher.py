@@ -4,9 +4,9 @@ from app.extensions import db
 class AddStudentInfo(db.Model):
     __tablename__ = "student_data"
     student_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    student_roll = db.Column(db.Integer, unique=True, nullable=False)
+    student_roll = db.Column(db.Integer, nullable=False)
     student_full_name = db.Column(db.String(250), nullable=False)
-    sessions = db.Column(db.String(10),nullable=False,unique=True)
+    sessions = db.Column(db.String(10),nullable=False)
     semester = db.Column(db.Integer, nullable=False)
     group = db.Column(db.String(1))
     cgpa = db.Column(db.Float, default=0)
@@ -46,7 +46,18 @@ class MarksTopic(db.Model):
     full_marks = db.Column(db.Integer, nullable=False)
     subject_id = db.Column(db.Integer, db.ForeignKey("subjects.subject_id"), nullable=False)
     teacher_id = db.Column(db.Integer,db.ForeignKey("teacher_info.teacher_id"),nullable=False,)
-
+    subject = db.relationship(
+        "Subjects",
+        backref="marks_topics"
+    )
+    __table_args__ = (
+        db.UniqueConstraint(
+            "teacher_id",
+            "subject_id",
+            "marks_topic_name",
+            name="unique_teacher_subject_marks_topic",
+        ),
+    )
 
 class AddMarks(db.Model):
     __tablename__ = "add_marks"
