@@ -16,14 +16,33 @@
   background: linear-gradient(90deg, #0d47f4, #12b7e8);
 }
 
-/* Header row: title + back button */
+/* Header row: icon + title + back button */
 .gm-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 24px 6px;
+  padding: 18px 24px 20px;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.gm-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.gm-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  font-size: 20px;
+  color: #0d47f4;
+  background: #dbeafe;
+  border-radius: 12px;
 }
 
 .gm-title {

@@ -13,9 +13,14 @@
     <div class="gm-strip"></div>
 
     <div class="gm-card-header">
-      <div>
-        <p class="gm-title">Load students for marks entry</p>
-        <p class="gm-subtitle">Choose a department, semester, session and group</p>
+      <div class="gm-header-left">
+        <div class="gm-header-icon">
+          <i class="ti ti-clipboard-list"></i>
+        </div>
+        <div>
+          <p class="gm-title">Load students for marks entry</p>
+          <p class="gm-subtitle">Choose a department, semester, session and group</p>
+        </div>
       </div>
       <a href="{{ url_for('get_marks_dashboard.get_marks_dashboard') }}" class="btn-back">
         <i class="ti ti-arrow-left"></i>
