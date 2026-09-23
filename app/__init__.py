@@ -67,8 +67,7 @@ def create_app():
     from .routes.teacher.get_marks_system.get_marks_topic import (
         get_marks_topic_bp,
     )
-    from .routes.teacher.get_marks_system.marks_deatils import marks_details_bp
-    from .routes.teacher.get_marks_system.view_details import (
+    from .routes.teacher.get_marks_system.marks_details import (
         view_student_details_bp,
     )
     from .routes.teacher.show_student import show_student_bp
@@ -103,7 +102,7 @@ def create_app():
     app.register_blueprint(get_marks_bp)
     app.register_blueprint(view_student_details_bp)
     app.register_blueprint(add_marks_bp)
-    app.register_blueprint(marks_details_bp)
+    
     app.register_blueprint(get_marks_topic_bp)
     app.register_blueprint(student_dashboard_bp)
     app.register_blueprint(subjects_marks_bp)
