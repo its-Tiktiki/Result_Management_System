@@ -10,7 +10,6 @@ from flask import (
 from app.models.teacher import AddStudentInfo
 from app.routes.student.auth_check import student_roll_check
 
-
 student_dashboard_bp = Blueprint(
     "student_dashboard",
     __name__,
@@ -24,17 +23,22 @@ def student_dashboard():
     # Student login check
     student_roll_check()
 
-    # Session থেকে student ID
-    student_id = session.get("student_id")
+    student_roll = session.get("student_roll")
 
-    if not student_id:
+    if not student_roll:
         flash("Please login first.", "danger")
         return redirect(url_for("home.home"))
 
-    # Student information
-    student_data = AddStudentInfo.query.filter_by(
-        student_id=student_id
-    ).first()
+    # Get latest semester data
+    student_data = (
+        AddStudentInfo.query
+        .filter_by(student_roll=student_roll)
+        .order_by(
+            AddStudentInfo.semester.desc(),
+            AddStudentInfo.student_id.desc()
+        )
+        .first()
+    )
 
     if not student_data:
         flash("Student information not found.", "danger")

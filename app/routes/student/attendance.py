@@ -28,11 +28,12 @@ def attendance():
     # --------------------------------------------------------
     # Student Authentication
     # --------------------------------------------------------
+
     student_roll_check()
 
-    student_id = session.get("student_id")
+    student_roll = session.get("student_roll")
 
-    if not student_id:
+    if not student_roll:
         return render_template(
             "student/attendance.html",
             attendance=None,
@@ -45,14 +46,17 @@ def attendance():
         )
 
     # ========================================================
-    # Get Student Information
+    # Get ALL Student Records
     # ========================================================
-    student = AddStudentInfo.query.filter_by(
-        student_id=student_id
-    ).first()
 
-    if not student:
+    student_records = (
+        AddStudentInfo.query
+        .filter_by(student_roll=student_roll)
+        .order_by(AddStudentInfo.semester.asc())
+        .all()
+    )
 
+    if not student_records:
         return render_template(
             "student/attendance.html",
             attendance=None,
@@ -64,26 +68,32 @@ def attendance():
             percentage=0
         )
 
-    # ========================================================
-    # Get Student Subjects
-    #
-    # Subject comes from Curriculum:
-    # department_id + semester
-    # ========================================================
-    curriculum_records = Curriculum.query.filter_by(
-        department_id=student.department_id,
-        semester=student.semester
-    ).all()
-
-    subjects = [
-        curriculum.subject
-        for curriculum in curriculum_records
-        if curriculum.subject
+    student_ids = [
+        student.student_id
+        for student in student_records
     ]
+
+    # ========================================================
+    # Get ALL Subjects Where Student Has Attendance
+    # ========================================================
+
+    attendance_subjects = (
+        db.session.query(Subjects)
+        .join(
+            Attendance,
+            Attendance.subject_id == Subjects.subject_id
+        )
+        .filter(
+            Attendance.student_id.in_(student_ids)
+        )
+        .distinct()
+        .all()
+    )
 
     # ========================================================
     # Selected Subject
     # ========================================================
+
     selected_subject_id = request.args.get(
         "subject_id",
         type=int
@@ -105,30 +115,34 @@ def attendance():
     # ========================================================
     # If Subject Selected
     # ========================================================
+
     if selected_subject_id:
 
         # ----------------------------------------------------
         # Security Check
-        #
-        # Selected subject MUST belong to this student's
-        # department + semester curriculum.
+        # Subject must belong to student's attendance history
         # ----------------------------------------------------
-        valid_subject = Curriculum.query.filter_by(
-            department_id=student.department_id,
-            semester=student.semester,
-            subject_id=selected_subject_id
-        ).first()
+
+        valid_subject = (
+            db.session.query(Attendance)
+            .filter(
+                Attendance.student_id.in_(student_ids),
+                Attendance.subject_id == selected_subject_id
+            )
+            .first()
+        )
 
         if valid_subject:
 
             # =================================================
             # Attendance Records
             # =================================================
+
             attendance = (
                 Attendance.query
-                .filter_by(
-                    student_id=student_id,
-                    subject_id=selected_subject_id
+                .filter(
+                    Attendance.student_id.in_(student_ids),
+                    Attendance.subject_id == selected_subject_id
                 )
                 .order_by(
                     Attendance.attendance_date.desc()
@@ -143,13 +157,14 @@ def attendance():
             # =================================================
             # Total Class
             # =================================================
+
             total_class = (
                 db.session.query(
                     func.count(Attendance.attendance_id)
                 )
-                .filter_by(
-                    student_id=student_id,
-                    subject_id=selected_subject_id
+                .filter(
+                    Attendance.student_id.in_(student_ids),
+                    Attendance.subject_id == selected_subject_id
                 )
                 .scalar()
             ) or 0
@@ -157,14 +172,15 @@ def attendance():
             # =================================================
             # Total Present
             # =================================================
+
             total_present = (
                 db.session.query(
                     func.count(Attendance.attendance_id)
                 )
-                .filter_by(
-                    student_id=student_id,
-                    subject_id=selected_subject_id,
-                    status="P"
+                .filter(
+                    Attendance.student_id.in_(student_ids),
+                    Attendance.subject_id == selected_subject_id,
+                    Attendance.status == "P"
                 )
                 .scalar()
             ) or 0
@@ -172,14 +188,15 @@ def attendance():
             # =================================================
             # Total Absent
             # =================================================
+
             total_absent = (
                 db.session.query(
                     func.count(Attendance.attendance_id)
                 )
-                .filter_by(
-                    student_id=student_id,
-                    subject_id=selected_subject_id,
-                    status="A"
+                .filter(
+                    Attendance.student_id.in_(student_ids),
+                    Attendance.subject_id == selected_subject_id,
+                    Attendance.status == "A"
                 )
                 .scalar()
             ) or 0
@@ -187,25 +204,24 @@ def attendance():
             # =================================================
             # Attendance Percentage
             # =================================================
-            if total_class > 0:
 
+            if total_class > 0:
                 percentage = round(
                     (total_present / total_class) * 100,
                     2
                 )
 
         else:
-
-            # Invalid subject for this student
             selected_subject_id = None
 
     # ========================================================
     # Render
     # ========================================================
+
     return render_template(
         "student/attendance.html",
         attendance=attendance,
-        subjects=subjects,
+        subjects=attendance_subjects,
         selected_subject_id=selected_subject_id,
         total_class=total_class,
         total_present=total_present,

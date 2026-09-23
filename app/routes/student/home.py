@@ -13,6 +13,7 @@ def home():
         if student:
             session["student"] = True
             session["student_id"] = student.student_id
+            session["student_roll"] = student.student_roll
             flash(f"Welcome To {student.student_full_name}","success")
             return redirect(url_for("student_dashboard.student_dashboard"))
         else:
