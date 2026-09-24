@@ -165,5 +165,137 @@ View Student Details
     });
 })();
 </script>
+=======
+<div class="mb-6">
+
+    <h1 class="text-2xl font-bold">
+        {{ student.student_full_name }}
+    </h1>
+
+    <div class="mt-2 text-sm">
+
+        <p>
+            <strong>Roll:</strong>
+            {{ student.student_roll }}
+        </p>
+
+        <p>
+            <strong>Semester:</strong>
+            {{ student.semester }}
+        </p>
+
+        <p>
+            <strong>Session:</strong>
+            {{ student.sessions }}
+        </p>
+
+        <p>
+            <strong>Group:</strong>
+            {{ student.group or "N/A" }}
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="overflow-x-auto">
+
+    <table class="table w-full">
+
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Topic</th>
+                <th>Marks</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for item in subjects %}
+
+            <tr>
+
+                <!-- Subject -->
+                <td class="align-top font-semibold">
+                    {{ item.subject.subject_name }}
+                </td>
+
+
+                <!-- Topics -->
+                <td class="align-top p-0">
+
+                    {% for mark in item.marks %}
+
+                    <div class="py-3 px-4 border-b border-base-300 last:border-b-0">
+                        {{ mark.topic.marks_topic_name }}
+                    </div>
+
+                    {% endfor %}
+
+                </td>
+
+
+                <!-- Marks -->
+                <td class="align-top p-0">
+
+                    {% for mark in item.marks %}
+
+                    <div class="py-3 px-4 border-b border-base-300 last:border-b-0">
+
+                        {{ mark.obtained_marks }}
+                        /
+                        {{ mark.topic.full_marks }}
+
+                    </div>
+
+                    {% endfor %}
+
+                </td>
+
+
+                <!-- Action -->
+                <td class="align-top p-0">
+
+                    {% for mark in item.marks %}
+
+                    <div class="py-2 px-4 border-b border-base-300 last:border-b-0 flex gap-2">
+                        <a href="{{ url_for(
+        'add_marks.add_marks',
+        student_id=student.student_id
+    ) }}" class="btn btn-sm btn-primary">
+                            Edit
+                        </a>
+
+                        <button type="button" class="btn btn-sm btn-error">
+                            Delete
+                        </button>
+
+                    </div>
+
+                    {% endfor %}
+
+                </td>
+
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="4" class="text-center">
+                    No marks found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
 
 {% endblock %}
