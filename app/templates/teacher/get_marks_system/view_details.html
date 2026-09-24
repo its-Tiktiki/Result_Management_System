@@ -1,34 +1,169 @@
 {% extends "base/base.html" %}
-{% block title %} View Student Details {% endblock %}
+
+{% block title %}
+View Student Details
+{% endblock %}
+
 {% block content %}
 
-<h2>Student Details</h2>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/student_details.css') }}">
 
+{% set name_parts = student.student_full_name.split() %}
+{% set initials = (name_parts[0][0] ~ (name_parts[-1][0] if name_parts|length > 1 else "")) | upper %}
 
-<p>ID: {{student.student_roll }} </p>
-<p>Full Name: {{student.student_full_name }} </p>
-<p>Semester: {{student.semester}} </p>
-<p>Group: {{student.group }}</p>
+{# overall totals across all subjects #}
+{% set all = namespace(got=0, full=0) %}
+{% for item in subjects %}
+    {% for mark in item.marks %}
+        {% set all.got = all.got + mark.obtained_marks %}
+        {% set all.full = all.full + (mark.topic.full_marks or 0) %}
+    {% endfor %}
+{% endfor %}
+{% set overall = (all.got / all.full * 100) if all.full else 0 %}
+{% set overall_level = 'sa-high' if overall >= 80 else ('sa-mid' if overall >= 50 else 'sa-low') %}
+{% set overall_label = 'Excellent' if overall >= 80 else ('Good' if overall >= 50 else 'Needs work') %}
 
-<h2>Marks Details</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Subject</th>
-            <th>Marks</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for subject, marks in marks_details %}
-        <tr>
-            <td>{{ subject.subject_name }}</td>
-            <td>
-                {% for mark in marks %}
-                    {{ mark.marks }}<br>
+<div class="sa-page">
+
+    <!-- Top bar -->
+    <div class="sa-top">
+        <h1 class="sa-title">Student Details</h1>
+        <a href="{{ url_for('get_marks.show_student') }}" class="sa-back">
+            <span>&larr;</span> Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Student overview -->
+    <section class="sa-hero">
+
+        <div class="sa-idcol">
+            <div class="sa-avatar">{{ initials }}</div>
+            <h2 class="sa-name">{{ student.student_full_name }}</h2>
+            <span class="sa-roll">Roll {{ student.student_roll }}</span>
+        </div>
+
+        <ul class="sa-facts">
+            <li class="sa-fact">
+                <span class="sa-fact-label">Semester</span>
+                <strong class="sa-fact-value">{{ student.semester }}</strong>
+            </li>
+            <li class="sa-fact">
+                <span class="sa-fact-label">Session</span>
+                <strong class="sa-fact-value">{{ student.sessions }}</strong>
+            </li>
+            {% if student.group and student.group != 'None' %}
+            <li class="sa-fact">
+                <span class="sa-fact-label">Group</span>
+                <strong class="sa-fact-value">{{ student.group }}</strong>
+            </li>
+            {% endif %}
+            <li class="sa-fact">
+                <span class="sa-fact-label">Subjects</span>
+                <strong class="sa-fact-value">{{ subjects|length }}</strong>
+            </li>
+            <li class="sa-fact">
+                <span class="sa-fact-label">Total marks</span>
+                <strong class="sa-fact-value">{{ '%g'|format(all.got) }} / {{ '%g'|format(all.full) }}</strong>
+            </li>
+        </ul>
+
+        <div class="sa-ringcol {{ overall_level }}">
+            <div class="sa-ring" style="--p: {{ [overall, 100]|min|round|int }}">
+                <span>{{ overall|round|int }}%</span>
+            </div>
+            <span class="sa-ringcol-label">Overall result</span>
+            <span class="sa-ringcol-tag">{{ overall_label }}</span>
+        </div>
+
+    </section>
+
+    <!-- Subjects -->
+    <main class="sa-main">
+        <div class="sa-main-head">
+            <h2 class="sa-main-title">Subject-wise Marks</h2>
+
+            {% if subjects|length > 1 %}
+            <select id="sa-subject-filter" class="sa-select" aria-label="Filter by subject">
+                <option value="all">All subjects</option>
+                {% for item in subjects %}
+                <option value="{{ loop.index }}">{{ item.subject.subject_name }}</option>
                 {% endfor %}
-            </td>
-        </tr>
+            </select>
+            {% endif %}
+        </div>
+
+        <div class="sa-grid">
+        {% for item in subjects %}
+
+            {# subject totals #}
+            {% set ns = namespace(got=0, full=0) %}
+            {% for mark in item.marks %}
+                {% set ns.got = ns.got + mark.obtained_marks %}
+                {% set ns.full = ns.full + (mark.topic.full_marks or 0) %}
+            {% endfor %}
+
+            <section class="sa-subject" data-subject="{{ loop.index }}">
+                <header class="sa-subject-head">
+                    <h3 class="sa-subject-name">
+                        <span class="sa-dot"></span>
+                        {{ item.subject.subject_name }}
+                    </h3>
+                    <div class="sa-subject-meta">
+                        <span class="sa-total">Total <strong>{{ ns.got }} / {{ ns.full }}</strong></span>
+                    </div>
+                </header>
+
+                <ul class="sa-topics">
+                    {% for mark in item.marks %}
+                    {% set pct = (mark.obtained_marks / mark.topic.full_marks * 100) if mark.topic.full_marks else 0 %}
+                    {% set level = 'sa-high' if pct >= 80 else ('sa-mid' if pct >= 50 else 'sa-low') %}
+
+                    <li class="sa-topic {{ level }}">
+                        <span class="sa-topic-name">{{ mark.topic.marks_topic_name }}</span>
+
+                        <div class="sa-score">
+                            <div class="sa-score-top">
+                                <span class="sa-score-num">{{ mark.obtained_marks }} / {{ mark.topic.full_marks }}</span>
+                                <span class="sa-score-pct">{{ pct|round|int }}%</span>
+                            </div>
+                            <div class="sa-bar"><span style="--w: {{ [pct, 100]|min|round|int }}%"></span></div>
+                        </div>
+
+                        <div class="sa-actions">
+                            <a href="{{ url_for('add_marks.add_marks', student_id=student.student_id) }}"
+                               class="sa-btn sa-btn-edit">Edit</a>
+                            <button type="button" class="sa-btn sa-btn-delete">Delete</button>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+        {% else %}
+            <div class="sa-empty">
+                <strong>No marks yet</strong>
+                Add marks to see this student's results here.
+            </div>
         {% endfor %}
-    </tbody>
-</table>
+        </div>
+    </main>
+
+</div>
+
+<script>
+(function () {
+    var select = document.getElementById('sa-subject-filter');
+    if (!select) return;
+
+    var cards = document.querySelectorAll('.sa-subject');
+
+    select.addEventListener('change', function () {
+        var key = select.value;
+        cards.forEach(function (card) {
+            card.hidden = (key !== 'all' && card.dataset.subject !== key);
+        });
+    });
+})();
+</script>
+
 {% endblock %}
