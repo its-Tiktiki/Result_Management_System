@@ -23,48 +23,62 @@
 </div>
 
 <div class="card form-box">
-    <div class="as-banner">
-        <h2>Student Registration Form</h2>
-        <p>All fields marked <span class="as-required">*</span> are required</p>
+
+    <div class="as-hero">
+        <p class="as-hero-title">Student Registration</p>
+        <p class="as-hero-sub">Fill all the required fields.</p>
     </div>
 
     <form method="POST">
         {{ student_form.hidden_tag() }}
 
-        <div class="as-section-title">
-            <span class="as-step">01</span>
-            <span>STUDENT INFORMATION</span>
-        </div>
+        <div class="as-timeline">
 
-        <div class="mb-3">
-            {{ student_form.student_roll.label(class="ap-label")}}
-            {{ student_form.student_roll(class="form-control")}}
-        </div>
-        <div class="mb-3">
-            {{ student_form.student_full_name.label(class="ap-label")}}
-            {{ student_form.student_full_name(class="form-control")}}
-        </div>
-        <div class="mb-3">
-            {{ student_form.sessions.label(class="ap-label")}}
-            {{ student_form.sessions(class="form-control")}}
-        </div>
+            <div class="as-step-row">
+                <div class="as-rail">
+                    <div class="as-dot">1</div>
+                    <div class="as-line"></div>
+                </div>
+                <div class="as-step-content">
+                    <p class="as-step-title">Student Information</p>
 
-        <div class="as-section-title">
-            <span class="as-step">02</span>
-            <span>ACADEMIC DETAILS</span>
-        </div>
+                    <div class="mb-3">
+                        {{ student_form.student_roll.label(class="ap-label")}}
+                        {{ student_form.student_roll(class="form-control")}}
+                    </div>
+                    <div class="mb-3">
+                        {{ student_form.student_full_name.label(class="ap-label")}}
+                        {{ student_form.student_full_name(class="form-control")}}
+                    </div>
+                    <div class="mb-3">
+                        {{ student_form.sessions.label(class="ap-label")}}
+                        {{ student_form.sessions(class="form-control")}}
+                    </div>
+                </div>
+            </div>
 
-        <div class="mb-3">
-            {{ student_form.semester.label(class="ap-label")}}
-            {{ student_form.semester(class="form-control")}}
-        </div>
-        <div class="mb-3">
-            {{ student_form.department_id.label(class="ap-label")}}
-            {{ student_form.department_id(class="form-control")}}
-        </div>
-        <div class="mb-3">
-            {{ student_form.group.label(class="ap-label")}}
-            {{ student_form.group(class="form-control")}}
+            <div class="as-step-row">
+                <div class="as-rail">
+                    <div class="as-dot">2</div>
+                </div>
+                <div class="as-step-content">
+                    <p class="as-step-title">Academic Details</p>
+
+                    <div class="mb-3">
+                        {{ student_form.semester.label(class="ap-label")}}
+                        {{ student_form.semester(class="form-control")}}
+                    </div>
+                    <div class="mb-3">
+                        {{ student_form.department_id.label(class="ap-label")}}
+                        {{ student_form.department_id(class="form-control")}}
+                    </div>
+                    <div class="mb-3">
+                        {{ student_form.group.label(class="ap-label")}}
+                        {{ student_form.group(class="form-control")}}
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div class="mb-3 form-actions">

@@ -1,84 +1,102 @@
-{% extends "base/base.html" %} {% block title %} Get Marks {% endblock %} {%
-block content %}
+{% extends "base/base.html" %}
+{% block title %} Get Marks {% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/get_marks.css') }}">
+{% endblock %}
+
+{% block content %}
 <div class="container mt-4">
-  <div class="card shadow">
-    <div class="card-header bg-primary text-white">
-      <h4 class="mb-0">load for get marks</h4>
+
+  <div class="gm-card">
+    <div class="gm-strip"></div>
+
+    <div class="gm-card-header">
+      <div class="gm-header-left">
+        <div class="gm-header-icon">
+          <i class="ti ti-clipboard-list"></i>
+        </div>
+        <div>
+          <p class="gm-title">Load students for marks entry</p>
+          <p class="gm-subtitle">Choose a department, semester, session and group</p>
+        </div>
+      </div>
+      <a href="{{ url_for('get_marks_dashboard.get_marks_dashboard') }}" class="btn-back">
+        <i class="ti ti-arrow-left"></i>
+        Back to dashboard
+      </a>
     </div>
 
-    <div class="card-body">
+    <div class="gm-form-body">
       <form method="POST">
         {{ form.hidden_tag() }}
 
-        <div class="mb-3">
-          {{ form.department_id.label(class="form-label") }} {{
-          form.department_id(class="form-select") }}
-        </div>
+        <div class="gm-form-grid">
+          <div class="gm-field">
+            {{ form.department_id.label(class="gm-label") }}
+            {{ form.department_id(class="gm-select") }}
+          </div>
 
-        <div class="mb-3">
-          {{ form.semester.label(class="form-label") }} {{
-          form.semester(class="form-select") }}
-        </div>
+          <div class="gm-field">
+            {{ form.semester.label(class="gm-label") }}
+            {{ form.semester(class="gm-select") }}
+          </div>
 
-        <div class="mb-3">
-          {{ form.sessions.label(class="form-label") }} {{
-          form.sessions(class="form-select") }}
-        </div>
+          <div class="gm-field">
+            {{ form.sessions.label(class="gm-label") }}
+            {{ form.sessions(class="gm-select") }}
+          </div>
 
-        <div class="mb-3">
-          {{ form.group.label(class="form-label") }} {{
-          form.group(class="form-select") }}
-        </div>
+          <div class="gm-field">
+            {{ form.group.label(class="gm-label") }}
+            {{ form.group(class="gm-select") }}
+          </div>
 
-        <div class="d-grid">{{ form.submit(class="btn btn-primary") }}</div>
+          <div class="gm-field gm-field-full">
+            {{ form.submit(class="btn-load") }}
+          </div>
+        </div>
       </form>
     </div>
   </div>
 
   {% if student_data %}
+  <div class="gm-card mt-3">
+    <div class="gm-strip"></div>
 
-  <div class="card shadow mt-4">
-    <div class="card-header bg-success text-white">
-      <h5 class="mb-0">Student List</h5>
+    <div class="gm-banner">
+      <p class="gm-banner-title">Student List</p>
+      <span class="gm-banner-count">{{ student_data|length }} student{{ 's' if student_data|length != 1 else '' }}</span>
     </div>
 
-    <div class="card-body p-0">
-      <table class="table table-bordered table-hover table-striped mb-0">
-        <thead class="table-dark">
-          <tr>
-            <th width="20%">Roll</th>
-            <th>Name</th>
-            <th width="20%">Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for s in student_data %}
-
-          <tr>
-            <td>{{ s.student_roll }}</td>
-
-            <td>{{ s.student_full_name }}</td>
-
-            <td>
-              <a href="{{ url_for('view_student_details.view_student_details', student_id=s.student_id) }}"
-                class="btn btn-success btn-sm">
-                Views
-              </a>
-              <a href="{{ url_for('add_marks.add_marks', student_id=s.student_id) }}" class="btn btn-success btn-sm">
-                Add marks
-              </a>
-            </td>
-          </tr>
-
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+    <table class="gm-table">
+      <thead>
+        <tr>
+          <th>Roll</th>
+          <th>Name</th>
+          <th class="text-end">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in student_data %}
+        <tr>
+          <td class="cell-roll">{{ s.student_roll }}</td>
+          <td class="cell-name">{{ s.student_full_name }}</td>
+          <td class="text-end">
+            <a href="{{ url_for('view_student_details.view_student_details', student_id=s.student_id) }}" class="pill pill-view">
+              View
+            </a>
+            <a href="{{ url_for('add_marks.add_marks', student_id=s.student_id) }}" class="pill pill-add">
+              Add marks
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
-
   {% endif %}
-</div>
 
+</div>
 {% endblock %}
