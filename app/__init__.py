@@ -14,7 +14,7 @@ def create_app():
             "http://127.0.0.1:5173",
         ],
     )
-
+  
     app.config.from_object(Config)
     db.init_app(app)
 
