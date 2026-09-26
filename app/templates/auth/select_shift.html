@@ -1,15 +1,46 @@
 {% extends "base/base.html" %}
+
+{% block title %}
+Select Shift
+{% endblock %}
+
 {% block content %}
-<div class="card">
-    <h2>Select Shift</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.shift.label }}
-            {{ form.shift(class="form-control") }}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/select_shift.css') }}">
+
+<div class="ss-page">
+    <div class="ss-card">
+
+        <div class="ss-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3.5 2"/>
+            </svg>
         </div>
-        <br>
-        {{ form.submit(class="btn btn-primary") }}
-    </form>
+
+        <h2 class="ss-title">Select Shift</h2>
+        <p class="ss-subtitle">Choose the shift you want to continue with.</p>
+
+        <form method="POST" class="ss-form" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="ss-field">
+                {{ form.shift.label(class="ss-label") }}
+                {{ form.shift(class="ss-select") }}
+                {% if form.shift.errors %}
+                <ul class="ss-errors">
+                    {% for error in form.shift.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+
+            {{ form.submit(class="ss-submit") }}
+        </form>
+
+    </div>
 </div>
+
 {% endblock %}
