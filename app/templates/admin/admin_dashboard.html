@@ -33,12 +33,10 @@
 <svg viewBox="0 0 24 24" aria-hidden="true">{{ I[n]|safe }}</svg>
 {%- endmacro %}
 
-<input type="checkbox" id="ad-nav-toggle" class="ad-nav-toggle" aria-hidden="true">
-
 <div class="ad-shell">
 
   <!-- SIDEBAR -->
-  <aside class="ad-sidebar" aria-label="Main navigation">
+  <aside class="ad-sidebar" id="ad-sidebar" aria-label="Main navigation">
     <div class="ad-brand">
       <span class="ad-brand-mark">{{ ic('pulse') }}</span>
       <span>
@@ -59,14 +57,14 @@
       <span class="ad-user-text"><span class="ad-user-name">Admin</span><span class="ad-user-role">Super Admin</span></span>
     </div>
   </aside>
-  <label for="ad-nav-toggle" class="ad-scrim" aria-hidden="true"></label>
+  <div class="ad-scrim" id="ad-scrim" aria-hidden="true"></div>
 
   <div class="ad-main" id="top">
 
   <!-- TOP BAR -->
   <header class="ad-topbar">
     <div class="ad-topbar-left">
-      <label for="ad-nav-toggle" class="ad-icon-btn ad-menu-btn" aria-label="Open menu">{{ ic('menu') }}</label>
+      <button type="button" class="ad-icon-btn ad-menu-btn" id="ad-menu" aria-label="Toggle menu" aria-controls="ad-sidebar" aria-expanded="true">{{ ic('menu') }}</button>
       <nav class="ad-breadcrumb" aria-label="Breadcrumb">Home {{ ic('chev') }} <span>Admin dashboard</span></nav>
     </div>
     <div class="ad-topbar-right">
@@ -165,5 +163,39 @@
   </main>
   </div>
 </div>
+
+<script>
+(function () {
+  var shell = document.querySelector('.ad-shell');
+  var btn = document.getElementById('ad-menu');
+  var scrim = document.getElementById('ad-scrim');
+  var sidebar = document.getElementById('ad-sidebar');
+  if (!shell || !btn || !sidebar) return;
+
+  var mobile = window.matchMedia('(max-width: 900px)');
+  // phones/tablets: sidebar slides over the page (class is-open)
+  // desktop: sidebar slides away to give more room (class is-collapsed)
+  var cls = function () { return mobile.matches ? 'is-open' : 'is-collapsed'; };
+  var isOpen = function () { return mobile.matches ? shell.classList.contains('is-open') : !shell.classList.contains('is-collapsed'); };
+
+  function sync() { btn.setAttribute('aria-expanded', isOpen() ? 'true' : 'false'); }
+  function set(open) {
+    if (mobile.matches) shell.classList.toggle('is-open', open);
+    else shell.classList.toggle('is-collapsed', !open);
+    sync();
+  }
+
+  btn.addEventListener('click', function () { set(!isOpen()); });
+  scrim.addEventListener('click', function () { set(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && mobile.matches && isOpen()) { set(false); btn.focus(); }
+  });
+  sidebar.addEventListener('click', function (e) {
+    if (mobile.matches && e.target.closest('a')) set(false);
+  });
+  (mobile.addEventListener ? mobile.addEventListener('change', function () { shell.classList.remove('is-open'); sync(); }) : mobile.addListener(function () { shell.classList.remove('is-open'); sync(); }));
+  sync();
+})();
+</script>
 
 {% endblock %}

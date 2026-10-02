@@ -29,14 +29,14 @@
 .is-amber  { --t: #e08a0b; --tb: var(--ad-warn-bg); }
 
 /* ── BASE ─────────────────────────────────── */
-.ad-nav-toggle { position: absolute; opacity: 0; pointer-events: none; }
 .ad-shell {
-  display: grid; grid-template-columns: 252px minmax(0, 1fr);
+  display: grid; grid-template-columns: 252px minmax(0, 1fr); transition: grid-template-columns .28s ease;
   min-height: 100vh;
   background: linear-gradient(180deg, #f4f9ff 0%, #f8fbff 260px, #fbfdff 100%);
   color: var(--ad-ink);
 }
 .ad-scrim { display: none; }
+.ad-shell.is-collapsed { grid-template-columns: 0 minmax(0, 1fr); }
 .ad-main { min-width: 0; display: flex; flex-direction: column; }
 .ad-shell a { text-decoration: none; }
 .ad-shell svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
@@ -56,7 +56,8 @@
   border-bottom: 1px solid var(--ad-line);
 }
 /* sidebar */
-.ad-sidebar { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 1.25rem .875rem; background: var(--ad-white); border-right: 1px solid var(--ad-line); overflow-y: auto; }
+.ad-sidebar { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 1.25rem .875rem; background: var(--ad-white); border-right: 1px solid var(--ad-line); overflow-y: auto; width: 252px; transition: transform .28s ease, visibility .28s; }
+.ad-shell.is-collapsed .ad-sidebar { transform: translateX(-100%); visibility: hidden; }
 .ad-brand { display: flex; align-items: center; gap: 12px; padding: 0 .5rem 1.5rem; }
 .ad-brand-mark { width: 38px; height: 38px; border-radius: 11px; background: var(--ad-gradient); color: #fff; display: grid; place-items: center; box-shadow: 0 6px 16px var(--ad-ring); }
 .ad-brand-mark svg { width: 19px; height: 19px; stroke-width: 2; }
@@ -80,7 +81,7 @@
 .ad-breadcrumb { display: flex; align-items: center; gap: 6px; font-size: .82rem; color: var(--ad-muted); }
 .ad-breadcrumb svg { width: 13px; height: 13px; }
 .ad-breadcrumb span { color: var(--ad-ink); font-weight: 700; }
-.ad-menu-btn { display: none; }
+.ad-menu-btn { display: grid; }
 .ad-topbar-right { display: flex; align-items: center; gap: .75rem; }
 
 .ad-icon-btn { position: relative; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--ad-line); background: var(--ad-white); color: var(--ad-muted); cursor: pointer; transition: color .15s, background-color .15s, border-color .15s; }
@@ -187,13 +188,12 @@
   .ad-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 900px) {
-  .ad-shell { grid-template-columns: minmax(0, 1fr); }
-  .ad-sidebar { position: fixed; inset: 0 auto 0 0; width: 280px; z-index: 60; transform: translateX(-100%); transition: transform .25s ease; }
-  .ad-scrim { display: block; position: fixed; inset: 0; z-index: 50; background: rgba(15, 40, 80, .45); opacity: 0; pointer-events: none; transition: opacity .25s; }
-  .ad-nav-toggle:checked ~ .ad-shell .ad-sidebar { transform: none; }
-  .ad-nav-toggle:checked ~ .ad-shell .ad-scrim { opacity: 1; pointer-events: auto; }
-  .ad-nav-toggle:focus-visible ~ .ad-shell .ad-menu-btn { outline: 3px solid var(--ad-ring); outline-offset: 2px; }
-  .ad-menu-btn { display: grid; }
+  .ad-shell, .ad-shell.is-collapsed { grid-template-columns: minmax(0, 1fr); }
+  .ad-sidebar { position: fixed; inset: 0 auto 0 0; width: 280px; z-index: 60; transform: translateX(-100%); visibility: hidden; box-shadow: none; }
+  .ad-shell.is-collapsed .ad-sidebar { transform: translateX(-100%); }
+  .ad-shell.is-open .ad-sidebar { transform: none; visibility: visible; box-shadow: 12px 0 40px rgba(15, 40, 80, .18); }
+  .ad-scrim { display: block; position: fixed; inset: 0; z-index: 50; background: rgba(15, 40, 80, .45); opacity: 0; pointer-events: none; transition: opacity .28s; }
+  .ad-shell.is-open .ad-scrim { opacity: 1; pointer-events: auto; }
   .ad-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 520px) {
@@ -210,6 +210,7 @@
   .ad-help-cta { width: 100%; justify-content: center; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .ad-shell, .ad-sidebar, .ad-scrim { transition: none !important; }
   .ad-rise { animation: none; }
   .ad-shell *, .ad-shell *::before, .ad-shell *::after { transition: none !important; }
 }
