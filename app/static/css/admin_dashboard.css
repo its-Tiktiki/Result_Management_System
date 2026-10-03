@@ -89,8 +89,6 @@
 .ad-icon-btn:hover { color: var(--ad-primary); background: var(--ad-primary-l); border-color: var(--ad-ring); }
 .ad-notif-dot { position: absolute; top: 8px; right: 9px; width: 8px; height: 8px; border-radius: 50%; background: #ef4444; border: 2px solid var(--ad-white); }
 
-.ad-user { display: flex; align-items: center; gap: .6rem; padding-left: .5rem; }
-
 .ad-signout { font-size: .86rem; font-weight: 600; color: var(--ad-muted); padding: .5rem .95rem; border: 1.5px solid var(--ad-line); border-radius: var(--ad-full); background: var(--ad-white); transition: color .15s, border-color .15s, background-color .15s; }
 .ad-signout:hover { color: var(--ad-primary); border-color: var(--ad-ring); background: var(--ad-primary-l); }
 .ad-signout:focus-visible, .ad-icon-btn:focus-visible, .ad-cta:focus-visible { outline: 3px solid var(--ad-ring); outline-offset: 2px; }

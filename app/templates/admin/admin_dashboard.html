@@ -50,8 +50,13 @@
     <nav class="ad-nav">
       <p class="ad-nav-group">General</p>
       <a href="#top" class="ad-nav-link is-current" aria-current="page">{{ ic('grid') }}Dashboard</a>
+
       <p class="ad-nav-group">Manage</p>
       <a href="{{ url_for('admin_dashboard.view_principals') }}" class="ad-nav-link">{{ ic('list') }}Principals</a>
+      <a href="{{ url_for('upload_dashboard.upload_dashboard') }}" class="ad-nav-link">{{ ic('upload') }}Manage result</a>
+
+      <p class="ad-nav-group">Account</p>
+      <a href="{{ url_for('admin_change_password.change_password') }}" class="ad-nav-link">{{ ic('lock') }}Change password</a>
     </nav>
 
     <div class="ad-side-foot">
@@ -124,11 +129,10 @@
 
       <section class="ad-panel ad-rise" style="--delay:.16s" aria-label="Quick actions">
         <header class="ad-panel-head"><h2 class="ad-panel-title">Quick actions</h2></header>
-        {# TODO: replace the two '#' links below with your real url_for(...) endpoints #}
         {% for name, desc, icon, tone, href in [
-          ('Edit principal info', 'Update details for an existing principal',    'edit',   'blue',   url_for('admin_dashboard.edit_and_view_principal')),
-          ('All principals',      'View and manage every principal',             'list',   'indigo', url_for('admin_dashboard.view_principals')),
-          ('Upload dashboard',    'Visit here to control result',                'upload', 'cyan',   url_for('upload_dashboard.upload_dashboard')),
+          ('Edit principal info', 'Update details for an existing principal',     'edit',   'blue',   url_for('admin_dashboard.edit_and_view_principal')),
+          ('All principals',      'View and manage every principal',              'list',   'indigo', url_for('admin_dashboard.view_principals')),
+          ('Upload dashboard',    'Visit here to control result',                 'upload', 'cyan',   url_for('upload_dashboard.upload_dashboard')),
           ('Change password',     'Change password using username and password', 'lock',   'amber',  url_for('admin_change_password.change_password'))
         ] %}
         <a href="{{ href }}" class="ad-action is-{{ tone }}">
