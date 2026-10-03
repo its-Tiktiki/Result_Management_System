@@ -128,8 +128,8 @@
         {% for name, desc, icon, tone, href in [
           ('Edit principal info', 'Update details for an existing principal',    'edit',   'blue',   url_for('admin_dashboard.edit_and_view_principal')),
           ('All principals',      'View and manage every principal',             'list',   'indigo', url_for('admin_dashboard.view_principals')),
-          ('Upload dashboard',    'Visit here to control result',                'upload', 'cyan',   '#'),
-          ('Change password',     'Change password using username and password', 'lock',   'amber',  '#')
+          ('Upload dashboard',    'Visit here to control result',                'upload', 'cyan',   url_for('upload_dashboard.upload_dashboard')),
+          ('Change password',     'Change password using username and password', 'lock',   'amber',  url_for('admin_change_password.change_password'))
         ] %}
         <a href="{{ href }}" class="ad-action is-{{ tone }}">
           <span class="ad-tile is-sm">{{ ic(icon) }}</span>
