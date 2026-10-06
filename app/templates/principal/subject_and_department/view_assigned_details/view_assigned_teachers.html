@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/assigned_teacher.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/assigned_teachers.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -15,115 +15,129 @@
 
 <div class="at-page">
 
-  <!-- TOP: breadcrumb back link + title + count -->
-  <header class="at-head at-rise">
-    <a href="{{ url_for('view_assigned.view_assigned') }}" class="at-crumb">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-      Assigned subjects
-    </a>
-
-    <div class="at-head-row">
+  <!-- HEADER: title (left) + back button (right) -->
+  <header class="at-header at-rise">
+    <div class="at-brand">
+      <span class="at-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </span>
       <div>
         <h1 class="at-title">Assigned teachers</h1>
-        <p class="at-lead">Teachers teaching this subject, by department and semester.</p>
-      </div>
-
-      <div class="at-count" aria-live="polite">
-        <strong data-shown>{{ items|length }}</strong>
-        <span data-label>Teachers</span>
+        <p class="at-lead">Teachers teaching this subject.</p>
       </div>
     </div>
+    <a href="{{ url_for('view_assigned.view_assigned') }}" class="at-back">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Back to subjects
+    </a>
   </header>
 
-  {% if items %}
+  <section class="at-card at-rise" style="animation-delay:.06s" aria-label="Assigned teacher list">
 
-  <!-- FILTER: semester chips -->
-  {% if semesters|length > 1 %}
-  <div class="at-filter at-rise" style="animation-delay:.06s" role="group" aria-label="Filter by semester">
-    <span class="at-filter-label">Semester</span>
-    <button type="button" class="at-chip is-active" data-filter="all">All</button>
-    {% for sem in semesters %}
-    <button type="button" class="at-chip" data-filter="{{ sem }}">{{ sem }}</button>
-    {% endfor %}
-  </div>
-  {% endif %}
+    {% if items %}
 
-  <!-- TEACHER CARDS -->
-  <ul class="at-grid">
-    {% for assignment in items %}
-    <li class="at-card at-tone-{{ loop.index0 % 4 }} at-rise" data-sem="{{ assignment.semester }}">
-
-      <div class="at-card-top">
-        <span class="at-avatar">{{ assignment.teacher.first_name[:1]|upper }}{{ assignment.teacher.last_name[:1]|upper }}</span>
-        <span class="at-sem">Semester {{ assignment.semester }}</span>
+    <!-- TOOLBAR: semester dropdown (left) + count (right) -->
+    <div class="at-toolbar">
+      <div class="at-filter">
+        {% if semesters|length > 1 %}
+        <label class="at-select">
+          <span class="at-select-label">Semester</span>
+          <span class="at-select-wrap">
+            <select id="at-semester" aria-label="Filter by semester">
+              <option value="all">All semesters</option>
+              {% for sem in semesters %}
+              <option value="{{ sem }}">Semester {{ sem }}</option>
+              {% endfor %}
+            </select>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </span>
+        </label>
+        {% endif %}
       </div>
 
-      <h2 class="at-name">{{ assignment.teacher.first_name }} {{ assignment.teacher.last_name }}</h2>
-
-      <p class="at-dept">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M6 21V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v16"/><path d="M10 8h4"/><path d="M10 12h4"/><path d="M10 21v-4h4v4"/></svg>
-        {{ assignment.department.department_name }}
+      <p class="at-count" aria-live="polite">
+        <strong data-shown>{{ items|length }}</strong>
+        <span data-label>Teachers assigned</span>
       </p>
+    </div>
 
-      <form action="{{ url_for('view_assigned.delete_teacher_assignment', assignment_id=assignment.assignment_id) }}" method="POST" class="at-form">
-        <button type="submit" class="at-del"
-                onclick="return confirm('Remove this teacher from the subject?');">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-          Remove assignment
-        </button>
-      </form>
+    <!-- COLUMN HEADINGS (desktop only) -->
+    <div class="at-cols" aria-hidden="true">
+      <span>Teacher</span>
+      <span>Department</span>
+      <span>Semester</span>
+      <span>Action</span>
+    </div>
 
-    </li>
-    {% endfor %}
-  </ul>
+    <ul class="at-list">
+      {% for assignment in items %}
+      <li class="at-row" data-sem="{{ assignment.semester }}">
 
-  <!-- shown when a filter matches nothing -->
-  <div class="at-empty" id="at-nomatch" hidden>
-    <span class="at-empty-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
-    <p class="at-empty-title">No teachers in this semester</p>
-    <p class="at-empty-sub">Pick a different semester.</p>
-  </div>
+        <div class="at-person">
+          <span class="at-avatar">{{ assignment.teacher.first_name[:1]|upper }}{{ assignment.teacher.last_name[:1]|upper }}</span>
+          <span class="at-name">{{ assignment.teacher.first_name }} {{ assignment.teacher.last_name }}</span>
+        </div>
 
-  {% else %}
+        <span class="at-dept">{{ assignment.department.department_name }}</span>
 
-  <!-- nobody assigned -->
-  <div class="at-empty at-rise">
-    <span class="at-empty-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-    <p class="at-empty-title">No teacher assigned</p>
-    <p class="at-empty-sub">No teacher has been assigned to this subject yet.</p>
-  </div>
+        <span class="at-sem-cell"><span class="at-sem">Semester {{ assignment.semester }}</span></span>
 
-  {% endif %}
+        <form action="{{ url_for('view_assigned.delete_teacher_assignment', assignment_id=assignment.assignment_id) }}" method="POST" class="at-form">
+          <button type="submit" class="at-del" aria-label="Remove assignment" title="Remove assignment"
+                  onclick="return confirm('Remove this teacher from the subject?');">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+          </button>
+        </form>
+
+      </li>
+      {% endfor %}
+    </ul>
+
+    <!-- shown when a filter matches nothing -->
+    <div class="at-empty" id="at-nomatch" hidden>
+      <span class="at-empty-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>
+      <p class="at-empty-title">No teachers in this semester</p>
+      <p class="at-empty-sub">Pick a different semester.</p>
+    </div>
+
+    {% else %}
+
+    <!-- nobody assigned -->
+    <div class="at-empty">
+      <span class="at-empty-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+      <p class="at-empty-title">No teacher assigned</p>
+      <p class="at-empty-sub">No teacher has been assigned to this subject yet.</p>
+    </div>
+
+    {% endif %}
+
+  </section>
 
 </div>
 
 {% if items %}
 <script>
 (function () {
-  var chips   = document.querySelectorAll('.at-chip');
-  var cards   = document.querySelectorAll('.at-card');
+  var select  = document.getElementById('at-semester');
+  var rows    = document.querySelectorAll('.at-row');
   var shown   = document.querySelector('[data-shown]');
   var label   = document.querySelector('[data-label]');
   var nomatch = document.getElementById('at-nomatch');
-  if (!chips.length) return;
+  if (!select) return;
 
-  chips.forEach(function (chip) {
-    chip.addEventListener('click', function () {
-      var f = chip.getAttribute('data-filter');
-      var visible = 0;
+  select.addEventListener('change', function () {
+    var f = select.value;
+    var visible = 0;
 
-      chips.forEach(function (c) { c.classList.toggle('is-active', c === chip); });
-
-      cards.forEach(function (card) {
-        var match = f === 'all' || card.getAttribute('data-sem') === f;
-        card.hidden = !match;
-        if (match) visible++;
-      });
-
-      if (shown) shown.textContent = visible;
-      if (label) label.textContent = f === 'all' ? 'Teachers' : 'In semester ' + f;
-      if (nomatch) nomatch.hidden = visible !== 0;
+    rows.forEach(function (row) {
+      var match = f === 'all' || row.getAttribute('data-sem') === f;
+      row.hidden = !match;
+      if (match) visible++;
     });
+
+    if (shown) shown.textContent = visible;
+    if (label) label.textContent = f === 'all' ? 'Teachers assigned' : 'In semester ' + f;
+    if (nomatch) nomatch.hidden = visible !== 0;
   });
 })();
 </script>
