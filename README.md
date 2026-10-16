@@ -15,7 +15,7 @@ The project is a Flask-based web application organized with Blueprints and SQLAl
 
 ## Technology Stack
 
-- Python 3
+- Python 3.10
 - Flask
 - Flask SQLAlchemy
 - Flask-WTF / WTForms
