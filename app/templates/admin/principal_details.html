@@ -26,13 +26,7 @@
             </div>
         </div>
         <div class="dash-header-right">
-            <a href="{{ url_for('admin_dashboard.edit_and_view_principal') }}" class="dash-signout">&larr; Back</a>
-            <a href="{{ url_for('admin_dashboard.edit_principal', principal_id=principal.principal_id) }}" class="pd-btn">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/>
-                </svg>
-                Edit principal
-            </a>
+            <a href="{{ url_for('admin_dashboard.view_principals') }}" class="dash-signout">&larr; Back</a>
         </div>
     </header>
 
